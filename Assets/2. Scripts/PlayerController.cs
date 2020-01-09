@@ -6,36 +6,50 @@ public class PlayerController : MonoBehaviour
 {
     public GameObject holding;
     public Transform raycastPoint;
+
     void Start() {
-        this.holding = null;    
+        holding = null;    
     }
 
     void Update() {
-        checkRelease();
+        CheckThrow();
     }
 
     public GameObject GetHoldedObject(){
-        return this.holding;
+        Debug.Log(holding);
+        return holding;
     }
     
     public bool Hold(GameObject gameObject){
-        if(this.holding == null){
-            this.holding = gameObject;
+        if(holding == null){
+            holding = gameObject;
             return true;
         }
         return false;
     }
 
     public bool Release(){
-        if(this.holding != null){
+        if(holding != null){
+            holding = null;
+            return true;
+        }
+        return false;
+    }
+
+    public bool Throw(){
+        if(holding != null){
             RaycastHit hit;
             if (Physics.Raycast(raycastPoint.position, raycastPoint.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
             {
-                // Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+                if(hit.transform == holding.transform){
+                    return false;
+                }
 
-                this.holding.GetComponent<ObjectController>().Trigger(hit.point);
-                this.holding = null;
-                return true;
+                if(holding.GetComponentInChildren<ObjectController>().Trigger(hit.point)){
+                    holding = null;
+                    return true;
+                }
+                return false;
             }
             else
             {
@@ -68,10 +82,10 @@ public class PlayerController : MonoBehaviour
     //     }
     // }
 
-    private void checkRelease(){
+    private void CheckThrow(){
         if (Input.GetMouseButtonDown(0))
         {
-            Release();
+            Throw();
         }
     }
     

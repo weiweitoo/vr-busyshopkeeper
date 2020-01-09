@@ -8,6 +8,7 @@ public class ObjectController : MonoBehaviour
     public Material inactiveMaterial;
     public Material gazedAtMaterial;
     public string objectName;
+    public float damage;
     public float defaultSpeed = 6f;
 
 
@@ -18,6 +19,37 @@ public class ObjectController : MonoBehaviour
     private float currSpeed;
 
     private Vector3 destination;
+    private PlayerController playerController;
+    private Rigidbody rigidbody;
+    private MeshCollider collider;
+
+    
+    private void Start()
+    {
+        startingPosition = transform.localPosition;
+        myRenderer = GetComponent<Renderer>();
+        animatorComponent = transform.parent.GetComponent<Animator>();
+        rigidbody = transform.parent.GetComponent<Rigidbody>();
+        collider = transform.parent.GetComponentInChildren<MeshCollider>();
+        playerController = GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetPlayerController();
+        SetGazedAt(false);
+    }
+
+    private void Update()
+    {
+        if (moving && Vector3.Distance(transform.parent.transform.localPosition, destination) < 0.1f)
+        {
+            moving = false;
+            // rigidbody.useGravity = true;
+            Debug.Log("Optimize me");
+        }
+        else if (moving)
+        {
+            MoveToUpdate(destination, currSpeed);
+        }
+
+        // stop moving if near
+    }
 
     public void SetGazedAt(bool gazedAt)
     {
@@ -54,15 +86,25 @@ public class ObjectController : MonoBehaviour
             }
         }
 
+        // If do not hold anything, hold it then, else put it down
+        if (playerController.GetHoldedObject() == null)
+        {
 
-        // Hold it and play animation
-        // Debug.Log("Hold" + this.objectName);
-        SetFloatAnimation(true);
-        Vector3 currPos = transform.parent.transform.localPosition;
-        Vector3 newPos = new Vector3(currPos.x, currPos.y + 0.9f, currPos.z);
-        MoveTo(newPos, 1f);
+            // Hold it and play animation
+            SetFloatAnimation(true);
+            Vector3 currPos = transform.parent.transform.localPosition;
+            Vector3 newPos = new Vector3(currPos.x, currPos.y + 1.4f, currPos.z);
+            MoveTo(newPos, 1f);
+            rigidbody.useGravity = false;
 
-        GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetPlayerController().Hold(this.gameObject);
+            playerController.Hold(transform.parent.gameObject);
+        }
+        else
+        {
+            ResetAnimation();
+            rigidbody.useGravity = true;
+            playerController.Release();
+        }
     }
 
     private void SetShakingAnimation(bool play)
@@ -77,48 +119,48 @@ public class ObjectController : MonoBehaviour
         // animatorComponent.SetBool("Shaking", !play);
     }
 
-    public void Trigger(Vector3 dest)
+    private void ResetAnimation()
+    {
+        animatorComponent.SetBool("Floating", false);
+        animatorComponent.SetBool("Shaking", false);
+    }
+
+    public bool Trigger(Vector3 dest)
     {
         // If it is still moving upward, stop it from moving again
-        if(moving == true){
-            return;
+        if (moving == true)
+        {
+            return false;
+        }
+        else if (transform.position == dest)
+        {
+            return false;
         }
 
-        // Debug.Log("Trigger Object" + this.objectName);
+        collider.isTrigger = true;
         MoveTo(dest, defaultSpeed);
         SetFloatAnimation(false);
+        return true;
     }
 
-    private void Start()
+    private void OnTriggerEnter(Collider other)
     {
-        startingPosition = transform.localPosition;
-        myRenderer = GetComponent<Renderer>();
-        animatorComponent = transform.parent.GetComponent<Animator>();
-        SetGazedAt(false);
-    }
-
-    private void Update()
-    {
-        if(Vector3.Distance(transform.parent.transform.localPosition, destination) < 0.1f){
-            moving = false;
-        }
-        else if (moving)
+        if (other.tag == "Enemy")
         {
-            Debug.Log("Still moving");
-            MoveToUpdate(destination, currSpeed);
+            Debug.Log(other);
+            other.GetComponent<EnemyScript>().Trigger(damage);
+            Destroy(gameObject);
         }
-        
-        // stop moving if near
     }
 
-    private void MoveToUpdate(Vector3 dest, float speed){
+    private void MoveToUpdate(Vector3 dest, float speed)
+    {
         float step = speed * Time.deltaTime;
         transform.parent.transform.localPosition = Vector3.MoveTowards(transform.parent.transform.localPosition, dest, step);
-        Debug.Log(transform.parent.transform.localPosition);
-        Debug.Log(step);
     }
 
-    private void MoveTo(Vector3 dest, float speed){
+    private void MoveTo(Vector3 dest, float speed)
+    {
         moving = true;
         destination = dest;
         currSpeed = speed;
