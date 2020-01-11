@@ -41,10 +41,15 @@ public class PlayerController : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(raycastPoint.position, raycastPoint.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
             {
+                Debug.Log(hit);
+                Debug.Log(hit.collider.tag);
                 if(hit.transform == holding.transform){
                     return false;
                 }
-
+                if(hit.collider.tag == "Projectile"){
+                    holding.GetComponentInChildren<ObjectController>().Release();
+                    return false;
+                }
                 if(holding.GetComponentInChildren<ObjectController>().Trigger(hit.point)){
                     holding = null;
                     return true;
@@ -60,27 +65,6 @@ public class PlayerController : MonoBehaviour
         }
         return false;
     }
-
-    // private void GetShootPosition(){
-    //     RaycastHit hitPoint;
-    //     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); 
-    //     if(Physics.Raycast(ray, out hitPoint, Mathf.Infinity))
-    //     {
-    //     if(hitPoint.collider.tag == "Ground")
-    //     {
-    //     Debug.Log("Hit ground"); 
-    //     }
-
-    //     if(hitPoint.collider.tag == "Object")
-    //     {
-    //     Debug.Log("Hit object"); 
-    //     }
-    //     }
-    //     else
-    //     {
-    //     Debug.Log ("No collider hit"); 
-    //     }
-    // }
 
     private void CheckThrow(){
         if (Input.GetMouseButtonDown(0))

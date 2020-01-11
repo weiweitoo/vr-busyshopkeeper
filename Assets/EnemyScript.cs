@@ -6,13 +6,11 @@ public class EnemyScript : MonoBehaviour
 {
     enum State{
         idle,
-        Run,
-        Attack,
         Dead
     }
     public float hp;
     public float movingSpeed;
-    public float damage;
+    public GameObject weapon;
 
     public string enemyName;
     private Animator animatorComponent;
@@ -33,7 +31,6 @@ public class EnemyScript : MonoBehaviour
     public void SetEnemyProfile(float hp, float movingSpeed, float damage){
         this.hp = hp;
         this.movingSpeed = movingSpeed;
-        this.damage = damage;
     }
 
     public void Trigger(float damage){
