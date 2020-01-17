@@ -12,7 +12,8 @@ public class BuyerScript : MonoBehaviour
     }
     public enum GoodsType
     {
-        AppleGreen,
+        None,
+        AppleWhite,
         AppleRed,
         Pear
     }
@@ -58,9 +59,17 @@ public class BuyerScript : MonoBehaviour
         this.movingSpeed = movingSpeed;
     }
 
-    public void Trigger(float damage)
+    public bool Trigger(GoodsType goodsType)
     {
-
+        if(goodsType == buyerType){
+            GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetBuyerManager().releaseSlot(transform.parent.gameObject);
+            Destroy(transform.parent.gameObject);
+            return true;
+        }
+        else{
+            return false;
+        }
+        
     }
 
     IEnumerator MoveAfter(float seconds){

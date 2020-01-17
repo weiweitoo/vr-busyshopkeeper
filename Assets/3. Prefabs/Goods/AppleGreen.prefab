@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1605fa18eaa22e14b9f184550772a1cf, type: 2}
+  - {fileID: 2100000, guid: 2f769c724b635d64f977fb9d637158a2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -105,11 +105,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f50abd53a91f3de4c81b3d1a5a2a0538, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inactiveMaterial: {fileID: 2100000, guid: 3157ace2edaaa5247aa264c1cc9ed998, type: 2}
-  gazedAtMaterial: {fileID: 2100000, guid: 1605fa18eaa22e14b9f184550772a1cf, type: 2}
-  objectName: AppleGreen
+  ObjectModel: {fileID: 0}
+  goodsType: 1
   damage: 1
   defaultSpeed: 6
+  moving: 0
 --- !u!1 &8447405388213393077
 GameObject:
   m_ObjectHideFlags: 0

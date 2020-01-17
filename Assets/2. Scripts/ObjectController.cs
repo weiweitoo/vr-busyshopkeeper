@@ -6,9 +6,7 @@ using UnityEngine.EventSystems;
 public class ObjectController : MonoBehaviour
 {
     public Mesh ObjectModel;
-    // public Material inactiveMaterial;
-    // public Material gazedAtMaterial;
-    public string objectName;
+    public BuyerScript.GoodsType goodsType;
     public float damage;
     public float defaultSpeed = 6f;
 
@@ -16,9 +14,8 @@ public class ObjectController : MonoBehaviour
     private Vector3 startingPosition;
     private Renderer myRenderer;
     private Animator animatorComponent;
-    private bool moving;
+    public bool moving;
     private float currSpeed;
-
     private Vector3 destination;
     private PlayerController playerController;
     private Rigidbody rigidbody;
@@ -26,15 +23,11 @@ public class ObjectController : MonoBehaviour
     private MeshFilter meshFilter;
     private bool isPlayerProjectile;
 
-    
-    private void Start()
-    {
-    }
 
     private void Update()
     {
         // stop moving if near
-        if (moving && Vector3.Distance(transform.parent.transform.localPosition, destination) < 0.1f)
+        if (moving && Vector3.Distance(transform.parent.transform.position, destination) < 0.1f)
         {
             moving = false;
         }
@@ -44,9 +37,9 @@ public class ObjectController : MonoBehaviour
         }
     }
 
-    public void setProfile(Mesh mesh, string objectName, float damage, bool isPlayerProjectile){
+    public void setProfile(Mesh mesh, BuyerScript.GoodsType type, float damage, bool isPlayerProjectile){
+        this.goodsType = type;
         this.ObjectModel = mesh;
-        this.objectName = objectName;
         this.damage = damage;
         this.isPlayerProjectile = isPlayerProjectile;
 
@@ -55,10 +48,6 @@ public class ObjectController : MonoBehaviour
 
     public void SetGazedAt(bool gazedAt)
     {
-        // if (inactiveMaterial != null && gazedAtMaterial != null)
-        // {
-        //     // myRenderer.material = gazedAt ? gazedAtMaterial : inactiveMaterial;
-        // }
         SetShakingAnimation(gazedAt);
         return;
     }
@@ -66,12 +55,12 @@ public class ObjectController : MonoBehaviour
     public void Recenter()
     {
         #if !UNITY_EDITOR
-                GvrCardboardHelpers.Recenter();
+            GvrCardboardHelpers.Recenter();
         #else
-                if (GvrEditorEmulator.Instance != null)
-                {
-                    GvrEditorEmulator.Instance.Recenter();
-                }
+            if (GvrEditorEmulator.Instance != null)
+            {
+                GvrEditorEmulator.Instance.Recenter();
+            }
         #endif  // !UNITY_EDITOR
     }
 
@@ -88,21 +77,26 @@ public class ObjectController : MonoBehaviour
             }
         }
 
-        // If do not hold anything, hold it then, else put it down
+        // If do not hold anything, hold it, else do nothing
         if (playerController.GetHoldedObject() == null)
         {
+            // If this projectile is on ground(player projectile), make it fly up
+            if(isPlayerProjectile){
+                Vector3 currPos = transform.parent.transform.localPosition;
+                Vector3 newPos = new Vector3(currPos.x, currPos.y + 1.4f, currPos.z);
+                MoveTo(newPos, 1f);
+            }
+            else{
+                Vector3 currPos = transform.parent.transform.localPosition;
+                Vector3 newPos = new Vector3(currPos.x, currPos.y + 0.7f, currPos.z);
+                MoveTo(newPos, 1f);
+            }
+
             // Hold it and play animation
             SetFloatAnimation(true);
-            Vector3 currPos = transform.parent.transform.localPosition;
-            Vector3 newPos = new Vector3(currPos.x, currPos.y + 1.4f, currPos.z);
-            MoveTo(newPos, 1f);
             rigidbody.useGravity = false;
             isPlayerProjectile = true;
-
             playerController.Hold(transform.parent.gameObject);
-        }
-        else
-        {
         }
     }
 
@@ -125,16 +119,22 @@ public class ObjectController : MonoBehaviour
             return false;
         }
 
-        collider.isTrigger = true;
-        MoveTo(dest, defaultSpeed);
-        SetFloatAnimation(false);
+        Shoot(dest, defaultSpeed);
         return true;
     }
 
+    public void Shoot(Vector3 dest, float movingSpeed){
+        MoveTo(dest, movingSpeed);
+        SetFloatAnimation(true);
+        collider.isTrigger = true;
+        rigidbody.useGravity = false;
+        transform.LookAt(dest);
+    }
 
     /*
     * Private method
     */
+
 
     private void SetShakingAnimation(bool play)
     {
@@ -155,15 +155,28 @@ public class ObjectController : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Enemy")
+        if (isPlayerProjectile && other.tag == "Enemy")
         {
             other.GetComponent<EnemyScript>().Trigger(damage);
-            Destroy(gameObject);
+            SelfDestroy();
         }
         // not player projectile and hit player
         else if(!isPlayerProjectile && other.tag == "Player"){
+            other.GetComponent<PlayerLifeScript>().Trigger(damage);
+            SelfDestroy();
             Debug.Log("Deal damage to player");
         }
+        else if(isPlayerProjectile && other.tag == "Buyer"){
+            if(other.GetComponent<BuyerScript>().Trigger(goodsType)){
+                SelfDestroy();
+            }
+            else{
+                Debug.Log("Wrong fruit");
+            }
+        }
+    }
+    private void SelfDestroy(){
+        Destroy(transform.parent.gameObject);
     }
 
     private void MoveToUpdate(Vector3 dest, float speed)

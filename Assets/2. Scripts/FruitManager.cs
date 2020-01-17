@@ -9,6 +9,7 @@ public class FruitManager : MonoBehaviour
     public Transform fruitSpawnPoint;
     public GameObject ProjectilePrefab;
     public List<Mesh> fruitMeshs;
+    public List<BuyerScript.GoodsType> goodsType;
     public List<int> damage;
     public int numFruit;
 
@@ -19,7 +20,7 @@ public class FruitManager : MonoBehaviour
             int index = Random.Range(0, fruitMeshs.Count);
             Mesh choosenFruit = fruitMeshs[index];
             GameObject generatedObject = Instantiate(ProjectilePrefab, getSpawnLocation(), Quaternion.identity);
-            generatedObject.GetComponentInChildren<ObjectController>().setProfile(choosenFruit, "Fruit", damage[index], true);
+            generatedObject.GetComponentInChildren<ObjectController>().setProfile(choosenFruit, goodsType[index], damage[index], true);
             generatedObject.transform.parent = fruitsParents.transform;
         }
     }

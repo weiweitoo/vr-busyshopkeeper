@@ -1,72 +1,81 @@
-﻿[
-    {
-        "level" : 1,
-        "num_of_stock" : 1,
-        "enemy" : [
-            "peasant"
-        ],
-        "weapon" : [
-            "pistol"
-        ],
-        "avg_interval" : 3.8,
-        "wave_1" : 2.8,
-        "wave_2" : 2.8,
-        "total_length" : 60
-    },
-    {
-        "level" : 2,
-        "num_of_stock" : 2,
-        "enemy" : [
-            "peasant", "viking"
-        ],
-        "weapon" : [
-            "pistol"
-        ],
-        "avg_interval" : 3.8,
-        "wave_1" : 2.8,
-        "wave_2" : 2.8,
-        "total_length" : 100
-    },
-    {
-        "level" : 3,
-        "num_of_stock" : 3,
-        "enemy" : [
-            "viking", "warrior"
-        ],
-        "weapon" : [
-            "pistol"
-        ],
-        "avg_interval" : 3.8,
-        "wave_1" : 2.8,
-        "wave_2" : 2.8,
-        "total_length" : 100
-    },
-    {
-        "level" : 4,
-        "num_of_stock" : 4,
-        "enemy" : [
-            "viking", "warrior"
-        ],
-        "weapon" : [
-            "pistol", "axe"
-        ],
-        "avg_interval" : 3.8,
-        "wave_1" : 2.8,
-        "wave_2" : 2.8,
-        "total_length" : 100
-    },
-    {
-        "level" : 4,
-        "num_of_stock" : 4,
-        "enemy" : [
-            "viking", "warrior", "boss_A"
-        ],
-        "weapon" : [
-            "pistol", "axe"
-        ],
-        "avg_interval" : 3,
-        "wave_1" : 2,
-        "wave_2" : 2,
-        "total_length" : 120
-    }
-]
+﻿{
+    "levels" : [{
+            "level" : 1,
+            "stocks" : [
+                "AppleWhite"
+            ],
+            "enemy" : [
+                "Warrior"
+            ],
+            "weapon" : [
+                "Dagger"
+            ],
+            "normal_interval" : 10,
+            "wave_1" : 6,
+            "wave_2" : 4,
+            "total_length" : 100
+        },
+        {
+            "level" : 2,
+            "stocks" : [
+                "AppleWhite",
+                "AppleRed"
+            ],
+            "enemy" : [
+                "Warrior",
+                "Knight"
+            ],
+            "weapon" : [
+                "Dagger",
+                "Sword"
+            ],
+            "normal_interval" : 8,
+            "wave_1" : 6,
+            "wave_2" : 4,
+            "total_length" : 200
+        },
+        {
+            "level" : 3,
+            "stocks" : [
+                "AppleWhite",
+                "AppleRed",
+                "Pear"
+            ],
+            "enemy" : [
+                "Warrior",
+                "Knight"
+            ],
+            "weapon" : [
+                "Dagger",
+                "Sword",
+                "Axe"
+            ],
+            "normal_interval" : 8,
+            "wave_1" : 6,
+            "wave_2" : 4,
+            "total_length" : 200
+        },
+        {
+            "level" : 4,
+            "stocks" : [
+                "AppleWhite",
+                "AppleRed",
+                "Pear"
+            ],
+            "enemy" : [
+                "Warrior",
+                "Knight",
+                "Viking"
+            ],
+            "weapon" : [
+                "Dagger",
+                "Sword",
+                "Axe"
+            ],
+            "normal_interval" : 8,
+            "wave_1" : 6,
+            "wave_2" : 4,
+            "total_length" : 200
+        }
+    ]
+}

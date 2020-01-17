@@ -16,7 +16,6 @@ public class PlayerController : MonoBehaviour
     }
 
     public GameObject GetHoldedObject(){
-        Debug.Log(holding);
         return holding;
     }
     

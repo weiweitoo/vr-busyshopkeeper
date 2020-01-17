@@ -239,8 +239,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f50abd53a91f3de4c81b3d1a5a2a0538, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inactiveMaterial: {fileID: 2100000, guid: 0881d91e83e8efa499218a6808132ed3, type: 2}
-  gazedAtMaterial: {fileID: 2100000, guid: 608250186ec19f846af86ed3d78185f3, type: 2}
-  objectName: AppleRed
+  ObjectModel: {fileID: 0}
+  goodsType: 1
   damage: 1
   defaultSpeed: 6
+  moving: 0

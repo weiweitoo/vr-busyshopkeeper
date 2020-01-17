@@ -3590,6 +3590,7 @@ Transform:
   - {fileID: 641968766}
   - {fileID: 2047834969}
   - {fileID: 333960444}
+  - {fileID: 981005765}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -16437,12 +16438,6 @@ MonoBehaviour:
   currentLevel: 0
   levels:
     levels: []
-  buyerManager: {fileID: 1144151337}
-  enemyManager: {fileID: 2037254573}
-  waveState: 0
-  timer_delta: 0
-  timer_second: 0
-  currTotalLength: 0
 --- !u!1001 &418416734
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20496,7 +20491,7 @@ MonoBehaviour:
   - {fileID: 4300000, guid: ab90ea1a15fb35944868cb4ef9e5afff, type: 3}
   - {fileID: 4300000, guid: 36b0d2c494f440c4ea6a910debf532c4, type: 3}
   - {fileID: 4300000, guid: 59d79f2dce2d01841b528fefef8d6c4f, type: 3}
-  goodsType: 010000000200000003000000
+  goodsType: 000000000100000002000000
   damage: 010000000100000001000000
   numFruit: 30
 --- !u!1 &519064188
@@ -43056,6 +43051,75 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 975634204}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &981005764
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 981005765}
+  - component: {fileID: 981005766}
+  m_Layer: 0
+  m_Name: Directional Light (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &981005765
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981005764}
+  m_LocalRotation: {x: 0.8613919, y: -0.06454682, z: -0.20670845, w: 0.45946634}
+  m_LocalPosition: {x: -11.244305, y: -0.4126463, z: -13.3753605}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 102142458}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 130.104, y: 40.15799, z: 27.871994}
+--- !u!108 &981005766
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981005764}
+  m_Enabled: 1
+  serializedVersion: 8
+  m_Type: 1
+  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Intensity: 1
+  m_Range: 10
+  m_SpotAngle: 30
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 2
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0
+    m_NearPlane: 0.2
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
 --- !u!1001 &981626641
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -84687,6 +84751,7 @@ MonoBehaviour:
   playerPos: {fileID: 1354019312}
   intervalMin: 6
   intervalMax: 12
+  maxEnemy: 4
 --- !u!1001 &2038257315
 PrefabInstance:
   m_ObjectHideFlags: 0
