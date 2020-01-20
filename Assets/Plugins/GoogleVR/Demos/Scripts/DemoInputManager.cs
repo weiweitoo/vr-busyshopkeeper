@@ -205,7 +205,7 @@ namespace GoogleVR.Demos
             }
 
             // Message canvas will be enabled later when there's a message to display.
-            messageCanvas.SetActive(false);
+            // messageCanvas.SetActive(false);
 #if !RUNNING_ON_ANDROID_DEVICE
             if (playerSettingsHasDaydream() || playerSettingsHasCardboard())
             {

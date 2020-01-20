@@ -64,7 +64,7 @@ namespace GoogleVR.HelloVR
             {
                 return;
             }
-
+            Debug.Log("GG");
             launchVrHomeButton.SetActive(false);
 #else
             GvrDaydreamApi.CreateAsync((success) =>
