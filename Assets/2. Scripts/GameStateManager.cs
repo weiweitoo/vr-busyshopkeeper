@@ -5,11 +5,20 @@ using UnityEngine.SceneManagement; //So you can use SceneManager
 
 public class GameStateManager : MonoBehaviour
 {
-    public bool isTutorial;
-    public bool isWaveEnd;
+    [ReadOnly] public bool isTutorial;
+    [ReadOnly] public bool isWaveEnd;
 
     private bool enemyEnd;
     private bool buyerEnd;
+
+    void Awake() {
+        if(PlayerPrefs.GetInt("Level", 0) == 0){
+            isTutorial = true;
+        }
+        else{
+            isTutorial = false;
+        }
+    }
 
     void Start() {
         isWaveEnd = false;

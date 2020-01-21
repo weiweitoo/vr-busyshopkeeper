@@ -10,6 +10,11 @@ public class PlayerLifeScript : MonoBehaviour
     public float maxHp;
     [ReadOnly] public float currHp;
 
+    public float healthMin;
+    // public 
+    // private float timer_delta = 0f; 
+    // private float timer_second = 0f; 
+
     private void Start() {
         currHp = maxHp;
     }
