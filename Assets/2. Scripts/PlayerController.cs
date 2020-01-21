@@ -40,8 +40,6 @@ public class PlayerController : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(raycastPoint.position, raycastPoint.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
             {
-                Debug.Log(hit);
-                Debug.Log(hit.collider.tag);
                 if(hit.transform == holding.transform){
                     return false;
                 }

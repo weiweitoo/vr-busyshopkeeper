@@ -18,8 +18,12 @@ public class BuyerManager : MonoBehaviour
     
     void Start()
     {
-        StartCoroutine(Spawner());
         LoadLevel();
+
+        // If is not tutorial then start main gameplay
+        if(!GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetGameStateManager().getIsTutorial()){
+            StartCoroutine(Spawner());
+        }
     }
 
     private void LoadLevel(){
@@ -36,21 +40,23 @@ public class BuyerManager : MonoBehaviour
         while(true){
             yield return new WaitForSeconds(Random.Range(intervalMin, intervalMax));
             if(buyerList.Count < maxBuyer){
-                // TODO: this is computation power wastage, as it keep random to find, even for small amount of enemy
-                // Get a prefab to generate, only check the one that is needed
-                GameObject choosenPrefab = spawnable[Random.Range(0, spawnable.Count)];
-                Debug.Log(choosenPrefab.GetComponentInChildren<BuyerScript>().buyerName);
-                while(!level.stocks.Contains(choosenPrefab.GetComponentInChildren<BuyerScript>().buyerName)){
-                    choosenPrefab = spawnable[Random.Range(0, spawnable.Count)];
-                }
-
-                // Generated the buyer
-                GameObject generatedObject = Instantiate(choosenPrefab, spawnPoint.localPosition, Quaternion.identity);
-                generatedObject.GetComponentInChildren<BuyerScript>().SetBuyerProfile(centrePoint, 3.0f);
-                generatedObject.transform.SetParent(buyerManager.transform);
-                buyerList.Add(generatedObject);
+                SpawnBuyer();
             }
         }
+    }
+
+    public void SpawnBuyer(){
+        GameObject choosenPrefab = spawnable[Random.Range(0, spawnable.Count)];
+        // Debug.Log(choosenPrefab.GetComponentInChildren<BuyerScript>().buyerName);
+        while(!level.stocks.Contains(choosenPrefab.GetComponentInChildren<BuyerScript>().buyerName)){
+            choosenPrefab = spawnable[Random.Range(0, spawnable.Count)];
+        }
+
+        // Generated the buyer
+        GameObject generatedObject = Instantiate(choosenPrefab, spawnPoint.localPosition, Quaternion.identity);
+        generatedObject.GetComponentInChildren<BuyerScript>().SetBuyerProfile(centrePoint, 3.0f);
+        generatedObject.transform.SetParent(buyerManager.transform);
+        buyerList.Add(generatedObject);
     }
 
     public void releaseSlot(GameObject buyer){

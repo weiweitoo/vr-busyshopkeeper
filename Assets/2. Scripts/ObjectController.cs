@@ -9,12 +9,12 @@ public class ObjectController : MonoBehaviour
     public BuyerScript.GoodsType goodsType;
     public float damage;
     public float defaultSpeed = 6f;
-
+    public bool moving;
+    public Transform playerLocation;
 
     private Vector3 startingPosition;
     private Renderer myRenderer;
     private Animator animatorComponent;
-    public bool moving;
     private float currSpeed;
     private Vector3 destination;
     private PlayerController playerController;
@@ -37,8 +37,9 @@ public class ObjectController : MonoBehaviour
         }
     }
 
-    public void setProfile(Mesh mesh, BuyerScript.GoodsType type, float damage, bool isPlayerProjectile){
+    public void setProfile(Transform playerLocation, Mesh mesh, BuyerScript.GoodsType type, float damage, bool isPlayerProjectile){
         this.goodsType = type;
+        this.playerLocation = playerLocation;
         this.ObjectModel = mesh;
         this.damage = damage;
         this.isPlayerProjectile = isPlayerProjectile;
@@ -131,10 +132,9 @@ public class ObjectController : MonoBehaviour
         transform.LookAt(dest);
     }
 
-    /*
+    /* 
     * Private method
-    */
-
+    */ 
 
     private void SetShakingAnimation(bool play)
     {
@@ -153,6 +153,7 @@ public class ObjectController : MonoBehaviour
         animatorComponent.SetBool("Floating", false);
         animatorComponent.SetBool("Shaking", false);
     }
+    
     private void OnTriggerEnter(Collider other)
     {
         if (isPlayerProjectile && other.tag == "Enemy")
@@ -164,17 +165,20 @@ public class ObjectController : MonoBehaviour
         else if(!isPlayerProjectile && other.tag == "Player"){
             other.GetComponent<PlayerLifeScript>().Trigger(damage);
             SelfDestroy();
-            Debug.Log("Deal damage to player");
         }
         else if(isPlayerProjectile && other.tag == "Buyer"){
             if(other.GetComponent<BuyerScript>().Trigger(goodsType)){
                 SelfDestroy();
             }
             else{
-                Debug.Log("Wrong fruit");
+                // playerLocation
+                this.damage = 4;
+                isPlayerProjectile = false;
+                Shoot(playerLocation.position, 12);
             }
         }
     }
+
     private void SelfDestroy(){
         Destroy(transform.parent.gameObject);
     }

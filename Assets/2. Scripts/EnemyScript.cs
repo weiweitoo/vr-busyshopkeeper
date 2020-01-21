@@ -47,7 +47,7 @@ public class EnemyScript : MonoBehaviour
     private void ShootProjectile(){
         GameObject generatedObject = Instantiate(projectile, transform.position, Quaternion.identity);
         ObjectController objectController = generatedObject.GetComponentInChildren<ObjectController>();
-        objectController.setProfile(projectileMesh, BuyerScript.GoodsType.None, damage, false);
+        objectController.setProfile(playerPosition, projectileMesh, BuyerScript.GoodsType.None, damage, false);
         objectController.Shoot(playerPosition.position, shootingSpeed);
     }
 

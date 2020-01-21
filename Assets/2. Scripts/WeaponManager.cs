@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FruitManager : MonoBehaviour
+public class WeaponManager : MonoBehaviour
 {
-    public GameObject fruitsParents;
-    public Transform fruitSpawnPoint;
+    public GameObject weaponsParents;
+    public Transform weaponSpawnPoint;
     public GameObject ProjectilePrefab;
-    public List<Mesh> fruitMeshs;
-    public List<string> fruitName;
+    public List<Mesh> weaponMeshs;
+    public List<string> weaponName;
     public List<BuyerScript.GoodsType> goodsType;
     public List<int> damage;
-    public int numFruit;
+    public int numweapon;
     public Transform playerPosition;
 
     private Level level;
@@ -22,26 +22,26 @@ public class FruitManager : MonoBehaviour
 
         // If is not tutorial then start main gameplay
         if(!GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetGameStateManager().getIsTutorial()){
-            GenerateFruit(numFruit);
+            GenerateWeapon(numweapon);
         }
     }
 
-    public void GenerateFruit(int fruit){
-        for (int i = 0; i < fruit; i++)
+    public void GenerateWeapon(int weapon){
+        for (int i = 0; i < weapon; i++)
         {
             // Get only the containable name
-            int index = Random.Range(0, fruitName.Count);
-            string choosenFruitName = fruitName[index];
-            while(!level.stocks.Contains(choosenFruitName)){
-                index = Random.Range(0, fruitName.Count);
-                choosenFruitName = fruitName[index];
+            int index = Random.Range(0, weaponName.Count);
+            string choosenWeaponName = weaponName[index];
+            while(!level.weapon.Contains(choosenWeaponName)){
+                index = Random.Range(0, weaponName.Count);
+                choosenWeaponName = weaponName[index];
             }
 
-            // Retreive out the fruit mesh
-            Mesh choosenFruit = fruitMeshs[index];
+            // Retreive out the weapon mesh
+            Mesh choosenWeapon = weaponMeshs[index];
             GameObject generatedObject = Instantiate(ProjectilePrefab, getSpawnLocation(), Quaternion.identity);
-            generatedObject.GetComponentInChildren<ObjectController>().setProfile(playerPosition, choosenFruit, goodsType[index], damage[index], true);
-            generatedObject.transform.parent = fruitsParents.transform;
+            generatedObject.GetComponentInChildren<ObjectController>().setProfile(playerPosition, choosenWeapon, goodsType[index], damage[index], true);
+            generatedObject.transform.parent = weaponsParents.transform;
         }
     }
 
@@ -53,10 +53,10 @@ public class FruitManager : MonoBehaviour
         Vector3 newPos = new Vector3(0, 0, 0);
         while (distance <= 1)
         {
-            newX = fruitSpawnPoint.localPosition.x + RandomOfRanges(-0.2f, -1f, 0.2f, 1f);
-            newZ = fruitSpawnPoint.localPosition.z + RandomOfRanges(-0.2f, -1f, 0.2f, 1f);
-            newPos = new Vector3(newX, fruitSpawnPoint.localPosition.y, newZ);
-            distance = Vector3.Distance(newPos, fruitSpawnPoint.localPosition);
+            newX = weaponSpawnPoint.localPosition.x + RandomOfRanges(-0.2f, -1f, 0.2f, 1f);
+            newZ = weaponSpawnPoint.localPosition.z + RandomOfRanges(-0.2f, -1f, 0.2f, 1f);
+            newPos = new Vector3(newX, weaponSpawnPoint.localPosition.y, newZ);
+            distance = Vector3.Distance(newPos, weaponSpawnPoint.localPosition);
         }
         return newPos;
     }

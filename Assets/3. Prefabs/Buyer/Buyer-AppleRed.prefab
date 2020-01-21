@@ -1066,6 +1066,13 @@ MonoBehaviour:
   centerDistance: 3
   minDistance: 4
   buyerType: 2
+  rageTime: 22
+  rageAttackPrefab: {fileID: 4234184900169942224, guid: a74b19b5f54f0884dbcb3b4e0447ca01,
+    type: 3}
+  playerPosition: {fileID: 0}
+  rageAttackMesh: {fileID: 4300000, guid: cc1ab28143b379d47b8584153bd973a7, type: 3}
+  damage: 4
+  shootingSpeed: 12
 --- !u!1 &2040060931143503101
 GameObject:
   m_ObjectHideFlags: 0
@@ -1858,7 +1865,7 @@ Transform:
   m_GameObject: {fileID: 2040060931910072464}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 8.055496, y: 0.20290722, z: 15.459289}
-  m_LocalScale: {x: 0.95, y: 0.95, z: 0.95}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_Children:
   - {fileID: 2040060931126673649}
   - {fileID: 2280413750773373907}

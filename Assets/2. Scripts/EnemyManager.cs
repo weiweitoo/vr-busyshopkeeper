@@ -24,8 +24,12 @@ public class EnemyManager : MonoBehaviour
     {
         occupiedSpace = new List<Transform>();
         currEnemys = new List<GameObject>();
-        StartCoroutine(Spawner());
         LoadLevel();
+
+        // If is not tutorial then start main gameplay
+        if(!GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetGameStateManager().getIsTutorial()){
+            StartCoroutine(Spawner());
+        }
     }
 
     private void LoadLevel(){
@@ -44,27 +48,31 @@ public class EnemyManager : MonoBehaviour
             // Uncomment this if wanted to set a max enemy in a same time
             // if(occupiedSpace.Count < spawnPoints.Count && occupiedSpace.Count < maxEnemy){
             if(occupiedSpace.Count < spawnPoints.Count){
-                // Get a spawnpoint
-                Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
-                while(occupiedSpace.Contains(spawnPoint)){
-                    spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
-                }
-
-                // TODO: this is computation power wastage, as it keep random to find, even for small amount of enemy
-                // Get a prefab to generate, only check the one that is needed
-                GameObject choosenPrefab = enemyList[Random.Range(0, enemyList.Count)];
-                while(!level.enemy.Contains(choosenPrefab.GetComponentInChildren<EnemyScript>().enemyName)){
-                    choosenPrefab = enemyList[Random.Range(0, enemyList.Count)];
-                }
-
-                // Generated the enemy
-                GameObject generatedObject = Instantiate(choosenPrefab, spawnPoint.localPosition, Quaternion.identity);
-                generatedObject.GetComponentInChildren<EnemyScript>().SetEnemyProfile(playerPos);
-                generatedObject.transform.parent = spawnPoint;
-                currEnemys.Add(generatedObject);
-                occupiedSpace.Add(spawnPoint);
+                SpawnEnemy();
             }
         }
+    }
+
+    public void SpawnEnemy(){
+        // Get a spawnpoint
+        Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
+        while(occupiedSpace.Contains(spawnPoint)){
+            spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
+        }
+
+        // TODO: this is computation power wastage, as it keep random to find, even for small amount of enemy
+        // Get a prefab to generate, only check the one that is needed
+        GameObject choosenPrefab = enemyList[Random.Range(0, enemyList.Count)];
+        while(!level.enemy.Contains(choosenPrefab.GetComponentInChildren<EnemyScript>().enemyName)){
+            choosenPrefab = enemyList[Random.Range(0, enemyList.Count)];
+        }
+
+        // Generated the enemy
+        GameObject generatedObject = Instantiate(choosenPrefab, spawnPoint.localPosition, Quaternion.identity);
+        generatedObject.GetComponentInChildren<EnemyScript>().SetEnemyProfile(playerPos);
+        generatedObject.transform.parent = spawnPoint;
+        currEnemys.Add(generatedObject);
+        occupiedSpace.Add(spawnPoint);
     }
 
     public void releaseSlot(GameObject enemy, GameObject spawnPoint){

@@ -1,0 +1,56 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement; //So you can use SceneManager
+
+public class GameStateManager : MonoBehaviour
+{
+    public bool isTutorial;
+    public bool isWaveEnd;
+
+    private bool enemyEnd;
+    private bool buyerEnd;
+
+    void Start() {
+        isWaveEnd = false;
+    }
+
+    private void Update() {
+        if(isWaveEnd){
+            enemyEnd = GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetEnemyManager().currEnemys.Count <= 0;
+            buyerEnd = GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetBuyerManager().buyerList.Count <= 0;
+
+            if(enemyEnd && buyerEnd){
+
+                // Total 4 level(0,1,2,3)
+                if(PlayerPrefs.GetInt("Level") >= 2){
+                    Win();
+                }
+                else{
+                    NextLevel();
+                }
+            }
+        }
+    }
+
+    public bool getIsTutorial(){
+        return isTutorial;
+    }
+    public void Win(){
+        Initiate.Fade("StartScene", Color.white, 3.0f);
+    }
+    
+    public void Dead(){
+        Initiate.Fade("StartScene", Color.red, 3.0f);
+    }
+
+    public void SetWaveEnd(){
+        isWaveEnd = true;
+    }
+
+    private void NextLevel(){
+        int newLevel = PlayerPrefs.GetInt("Level") + 1;
+        PlayerPrefs.SetInt("Level", newLevel);
+        SceneManager.LoadScene("GamePlay");
+    }
+}

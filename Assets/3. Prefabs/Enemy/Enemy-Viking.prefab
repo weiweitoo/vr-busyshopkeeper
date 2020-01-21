@@ -1216,9 +1216,9 @@ MonoBehaviour:
     type: 3}
   projectileMesh: {fileID: 4300000, guid: 18dee7feb9f9e85419f8b9be8e660aab, type: 3}
   damage: 6
-  shootingSpeed: 6
-  intervalMin: 5
-  intervalMax: 10
+  shootingSpeed: 4
+  intervalMin: 12
+  intervalMax: 16
 --- !u!64 &4681516822949156403
 MeshCollider:
   m_ObjectHideFlags: 0
