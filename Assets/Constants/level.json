@@ -10,10 +10,10 @@
             "weapon" : [
                 "Dagger"
             ],
-            "normal_interval" : 10,
-            "wave_1" : 6,
-            "wave_2" : 4,
-            "total_length" : 100
+            "normal_interval" : 14,
+            "wave_1" : 12,
+            "wave_2" : 10,
+            "total_length" : 60
         },
         {
             "level" : 2,
@@ -29,10 +29,10 @@
                 "Dagger",
                 "Sword"
             ],
-            "normal_interval" : 8,
-            "wave_1" : 6,
-            "wave_2" : 4,
-            "total_length" : 200
+            "normal_interval" : 13,
+            "wave_1" : 11,
+            "wave_2" : 9,
+            "total_length" : 80
         },
         {
             "level" : 3,
@@ -50,10 +50,10 @@
                 "Sword",
                 "Axe"
             ],
-            "normal_interval" : 8,
-            "wave_1" : 6,
-            "wave_2" : 4,
-            "total_length" : 200
+            "normal_interval" : 12,
+            "wave_1" : 10,
+            "wave_2" : 8,
+            "total_length" : 100
         },
         {
             "level" : 4,
@@ -72,10 +72,10 @@
                 "Sword",
                 "Axe"
             ],
-            "normal_interval" : 8,
-            "wave_1" : 6,
-            "wave_2" : 4,
-            "total_length" : 200
+            "normal_interval" : 11,
+            "wave_1" : 9,
+            "wave_2" : 7,
+            "total_length" : 100
         }
     ]
 }

@@ -44,7 +44,7 @@ public class LevelLoaderScript : MonoBehaviour
 
     private float timer_delta = 0f; 
     private float timer_second = 0f; 
-    private float currTotalLength;
+    public float currTotalLength;
     private Level level;
     private RectTransform rectTransform;
 
@@ -66,6 +66,7 @@ public class LevelLoaderScript : MonoBehaviour
 
     private void Update(){
         UpdateTimer();
+        UpdateWaveState();
         UpdateWaveIndicator();
     }
 
@@ -82,6 +83,8 @@ public class LevelLoaderScript : MonoBehaviour
     }
 
     public Level GetLevelDetails(){
+        print(currentLevel);
+        print(levels.levels);
         return levels.levels[currentLevel];
     }
 
@@ -91,32 +94,32 @@ public class LevelLoaderScript : MonoBehaviour
     }
 
     private void UpdateWaveState(){
-        if(waveState == WaveState.Warmup && timer_second >= currTotalLength / 4){
+        if(waveState == WaveState.Warmup && timer_delta >= (currTotalLength / 4)){
             waveState = WaveState.Wave1;
             buyerManager.SetInterval(level.wave_1-1-1, level.wave_1+1-1); // buyer spawn faster 1 second then enemy
             enemyManager.SetInterval(level.wave_1-1, level.wave_1+1);
             Debug.Log("Enter Wave 1");
         }
-        else if(waveState == WaveState.Wave1 && (timer_second >= (currTotalLength / 4) + 20)){
+        else if(waveState == WaveState.Wave1 && timer_delta >= ((currTotalLength / 4) + 20)){
             waveState = WaveState.Buffer;
             buyerManager.SetInterval(level.normal_interval-1-1, level.normal_interval+1-1); // buyer spawn faster 1 second then enemy
             enemyManager.SetInterval(level.normal_interval-1, level.normal_interval+1);
             Debug.Log("Enter Buffer");
         }
-        else if(waveState == WaveState.Buffer && (timer_second >= currTotalLength - 20)){
+        else if(waveState == WaveState.Buffer && timer_delta >= (currTotalLength - 20)){
             waveState = WaveState.Wave2;
             buyerManager.SetInterval(level.wave_2-1-1, level.wave_2+1-1); // buyer spawn faster 1 second then enemy
             enemyManager.SetInterval(level.wave_2-1, level.wave_2+1);
             Debug.Log("Enter Wave 2");
         }
-        else if(waveState == WaveState.Wave2 && (timer_second >= currTotalLength)){
+        else if(waveState == WaveState.Wave2 && (timer_delta >= currTotalLength)){
             GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetGameStateManager().SetWaveEnd();
             Debug.Log("End Game");
         }
     }
 
     private void SetupWaveIndicator(){
-        float progressWave1 = indicatorMax * ((currTotalLength / 4) + 20) / currTotalLength;
+        float progressWave1 = indicatorMax * (currTotalLength / 4) / currTotalLength;
 
         RectTransform rectTransform_1 = wave1Indicator.GetComponent<RectTransform>();
         rectTransform_1.anchoredPosition = new Vector2(progressWave1, 0);
@@ -127,7 +130,8 @@ public class LevelLoaderScript : MonoBehaviour
     }
 
     private void UpdateWaveIndicator(){
-        float progress = indicatorMax * (timer_second / currTotalLength);
+        float progress = indicatorMax * (timer_delta / currTotalLength);
+        Debug.Log(timer_delta);
         if(progress >= indicatorMax){
             progress = indicatorMax;
         }

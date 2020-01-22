@@ -8,19 +8,35 @@ public class PlayerLifeScript : MonoBehaviour
 
     public Text HPText;
     public float maxHp;
-    [ReadOnly] public float currHp;
+    public float currHp;
 
     public float healthMin;
-    // public 
-    // private float timer_delta = 0f; 
-    // private float timer_second = 0f; 
+    public float healInterval;
+    private float timer_delta = 0f; 
+    private float timer_second = 0f; 
+    private bool isRegen;
 
     private void Start() {
         currHp = maxHp;
+        isRegen = false;
     }
 
     private void Update(){
         UpdateHPText();
+        UpdateTimer();
+        CheckHealthRegen();
+    }
+
+
+    private void CheckHealthRegen(){
+        if(timer_second > healthMin){
+            isRegen = true;
+        }
+    }
+    
+    private void UpdateTimer(){
+        timer_delta += Time.deltaTime;
+        timer_second = timer_delta % 60;
     }
 
     private void UpdateHPText(){
@@ -35,7 +51,6 @@ public class PlayerLifeScript : MonoBehaviour
         currHp -= dam;
         if(currHp <= 0){
             currHp = 0;
-            Debug.Log("You are dead!");
             GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetGameStateManager().Dead();
         }
     }

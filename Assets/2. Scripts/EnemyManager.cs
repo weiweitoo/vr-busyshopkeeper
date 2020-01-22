@@ -43,7 +43,7 @@ public class EnemyManager : MonoBehaviour
     
     public IEnumerator Spawner()
     {
-        while(true){
+        while(!GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetGameStateManager().getIsEnd()){
             yield return new WaitForSeconds(Random.Range(intervalMin, intervalMax));
             // Uncomment this if wanted to set a max enemy in a same time
             // if(occupiedSpace.Count < spawnPoints.Count && occupiedSpace.Count < maxEnemy){

@@ -37,7 +37,7 @@ public class BuyerManager : MonoBehaviour
     
     public IEnumerator Spawner()
     {
-        while(true){
+        while(!GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetGameStateManager().getIsEnd()){
             yield return new WaitForSeconds(Random.Range(intervalMin, intervalMax));
             if(buyerList.Count < maxBuyer){
                 SpawnBuyer();

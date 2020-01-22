@@ -1071,7 +1071,7 @@ MonoBehaviour:
     type: 3}
   playerPosition: {fileID: 0}
   rageAttackMesh: {fileID: 4300000, guid: cc1ab28143b379d47b8584153bd973a7, type: 3}
-  damage: 4
+  damage: 3
   shootingSpeed: 12
 --- !u!1 &2040060931143503101
 GameObject:

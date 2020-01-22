@@ -1800,7 +1800,7 @@ MonoBehaviour:
   centerDistance: 3
   minDistance: 4
   buyerType: 3
-  rageTime: 12
+  rageTime: 14
   rageAttackPrefab: {fileID: 4234184900169942224, guid: a74b19b5f54f0884dbcb3b4e0447ca01,
     type: 3}
   playerPosition: {fileID: 0}

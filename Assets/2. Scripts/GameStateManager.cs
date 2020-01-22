@@ -8,8 +8,8 @@ public class GameStateManager : MonoBehaviour
     [ReadOnly] public bool isTutorial;
     [ReadOnly] public bool isWaveEnd;
 
-    private bool enemyEnd;
-    private bool buyerEnd;
+    public bool enemyEnd;
+    public bool buyerEnd;
 
     void Awake() {
         if(PlayerPrefs.GetInt("Level", 0) == 0){
@@ -45,6 +45,11 @@ public class GameStateManager : MonoBehaviour
     public bool getIsTutorial(){
         return isTutorial;
     }
+
+    public bool getIsEnd(){
+        return isWaveEnd;
+    }
+
     public void Win(){
         Initiate.Fade("StartScene", Color.white, 3.0f);
     }
@@ -58,6 +63,7 @@ public class GameStateManager : MonoBehaviour
     }
 
     private void NextLevel(){
+        Debug.Log("Move to next level");
         int newLevel = PlayerPrefs.GetInt("Level") + 1;
         PlayerPrefs.SetInt("Level", newLevel);
         SceneManager.LoadScene("GamePlay");

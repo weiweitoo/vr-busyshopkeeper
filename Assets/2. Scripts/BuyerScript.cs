@@ -100,7 +100,8 @@ public class BuyerScript : MonoBehaviour
             isRage = true;
             ShootProjectile();
             // Shot then self destroy
-            Destroy(gameObject);
+            GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetBuyerManager().releaseSlot(transform.parent.gameObject);
+            Destroy(transform.parent.gameObject);
         }
     }
 
