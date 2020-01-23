@@ -5,10 +5,11 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public GameObject holding;
+    public GameObject holdingEffect;
     public Transform raycastPoint;
 
     void Start() {
-        holding = null;    
+        holding = null;
     }
 
     void Update() {
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviour
     public bool Hold(GameObject gameObject){
         if(holding == null){
             holding = gameObject;
+            CreateHoldingEffect();
             return true;
         }
         return false;
@@ -61,6 +63,11 @@ public class PlayerController : MonoBehaviour
             }
         }
         return false;
+    }
+
+    private void CreateHoldingEffect(){
+        GameObject effect = Instantiate(holdingEffect, holding.transform.position, Quaternion.identity);
+        effect.transform.SetParent(holding.transform);
     }
 
     private void CheckThrow(){

@@ -9,46 +9,59 @@ public class PlayerLifeScript : MonoBehaviour
     public Text HPText;
     public float maxHp;
     public float currHp;
-
     public float healthMin;
     public float healInterval;
-    private float timer_delta = 0f; 
-    private float timer_second = 0f; 
-    private bool isRegen;
 
-    private void Start() {
+    private float regenTimer = 0f; 
+    private bool isRegen;
+    private int regenCount = 0;
+
+    void Start() {
         currHp = maxHp;
         isRegen = false;
     }
 
-    private void Update(){
+    void Update(){
         UpdateHPText();
         UpdateTimer();
         CheckHealthRegen();
-    }
-
-
-    private void CheckHealthRegen(){
-        if(timer_second > healthMin){
-            isRegen = true;
-        }
-    }
-    
-    private void UpdateTimer(){
-        timer_delta += Time.deltaTime;
-        timer_second = timer_delta % 60;
-    }
-
-    private void UpdateHPText(){
-        HPText.text =  currHp + " HP";
     }
 
     public void Trigger(float damage){
         TakeDamage(damage);
     }
 
+
+    private void CheckHealthRegen(){
+        // Check if can health(after interval and min), heal it then
+        if(regenTimer > (healthMin + (regenCount * healInterval))){
+            isRegen = true;
+            heal(1);
+            Debug.Log("Healing");
+        }
+    }
+    
+    private void ResetRegenTimer(){
+        regenTimer = 0f;
+        regenCount = 0;
+    }
+    
+    private void UpdateTimer(){
+        regenTimer += Time.deltaTime;
+    }
+
+    private void UpdateHPText(){
+        HPText.text =  currHp + " HP";
+    }
+
+    private void heal(float healAmount){
+        currHp += healAmount;
+        regenCount += 1;
+    }
+
     private void TakeDamage(float dam){
         currHp -= dam;
+        ResetRegenTimer();
         if(currHp <= 0){
             currHp = 0;
             GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetGameStateManager().Dead();

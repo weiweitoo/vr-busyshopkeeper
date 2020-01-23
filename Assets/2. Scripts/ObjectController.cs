@@ -1,8 +1,11 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 /// <summary>Controls interactable teleporting objects in the Demo scene.</summary>
 [RequireComponent(typeof(Collider))]
+// [RequireComponent(typeof(AudioSource))]
 public class ObjectController : MonoBehaviour
 {
     public Mesh ObjectModel;
@@ -12,6 +15,13 @@ public class ObjectController : MonoBehaviour
     public bool moving;
     public Transform playerLocation;
 
+    [Header("Audio Setting")]
+    public AudioClip buyerRageAudio;
+    public AudioClip buyerHappyAudio;
+    public AudioClip SmashPlayerAudio;
+
+
+    private AudioSource audioSourceComponent;
     private Vector3 startingPosition;
     private Renderer myRenderer;
     private Animator animatorComponent;
@@ -22,6 +32,7 @@ public class ObjectController : MonoBehaviour
     private MeshCollider collider;
     private MeshFilter meshFilter;
     private bool isPlayerProjectile;
+    private bool destroyThis;
 
 
     private void Update()
@@ -35,6 +46,7 @@ public class ObjectController : MonoBehaviour
         {
             MoveToUpdate(destination, currSpeed);
         }
+        CheckIfDestroy();
     }
 
     public void setProfile(Transform playerLocation, Mesh mesh, BuyerScript.GoodsType type, float damage, bool isPlayerProjectile){
@@ -121,20 +133,35 @@ public class ObjectController : MonoBehaviour
         }
 
         Shoot(dest, defaultSpeed);
+        // DrawRayCast(dest);
         return true;
     }
 
+    
+
     public void Shoot(Vector3 dest, float movingSpeed){
         MoveTo(dest, movingSpeed);
-        SetFloatAnimation(true);
+        // SetFloatAnimation(true);
+        ResetAnimation();
         collider.isTrigger = true;
         rigidbody.useGravity = false;
         transform.LookAt(dest);
+    
+        // Add a roatation effect
+        rigidbody.AddTorque(new Vector3(0f, 1f, 1f) * 200f);
     }
 
     /* 
     * Private method
     */ 
+    // private void DrawRayCast(Vector3 dest){
+        // Vector3 forward = transform.TransformDirection(Vector3.forward) * 10;
+        // Debug.DrawRay(transform.parent.position, forward, Color.red);
+        // if (Physics.Linecast(transform.position, dest))
+        // {
+        //     Debug.Log("blocked");
+        // }
+    // }
 
     private void SetShakingAnimation(bool play)
     {
@@ -168,19 +195,51 @@ public class ObjectController : MonoBehaviour
         }
         else if(isPlayerProjectile && other.tag == "Buyer"){
             if(other.GetComponent<BuyerScript>().Trigger(goodsType)){
-                SelfDestroy();
+                PlayAudioAndDestroy(buyerHappyAudio);
             }
-            else{
-                // playerLocation
+            else{             
+                PlayAudio(buyerRageAudio);
+                
+                // playerLocation       
                 this.damage = 4;
                 isPlayerProjectile = false;
                 Shoot(playerLocation.position, 12);
             }
         }
     }
+    
+    private void CheckIfDestroy(){
+        // Destroy if allow(sound not playing)
+        if(destroyThis && !audioSourceComponent.isPlaying){
+            Destroy(transform.parent.gameObject);
+        }
+    }
+
+    private void PlayAudio(AudioClip audio){
+        audioSourceComponent.clip = audio;
+        audioSourceComponent.Play();
+    }
+
+    private void PlayAudioAndDestroy(AudioClip audio){
+        // Hide the mesh renderer and collider and play sound
+        // In the end destroy the object
+        myRenderer.enabled = false;
+        collider.enabled = false;
+        PlayAudio(audio);
+        StartCoroutine(SelfDestroyAfterSoundCoroutine());
+    }
 
     private void SelfDestroy(){
-        Destroy(transform.parent.gameObject);
+        destroyThis = true;
+        // Destroy(transform.parent.gameObject);
+    }
+
+    private IEnumerator SelfDestroyAfterSoundCoroutine(){
+        float waitFor = audioSourceComponent.clip.length;
+        yield return new WaitForSecondsRealtime(waitFor);
+        // SelfDestroy();
+        destroyThis = true;
+        yield return null;
     }
 
     private void MoveToUpdate(Vector3 dest, float speed)
@@ -200,6 +259,8 @@ public class ObjectController : MonoBehaviour
         myRenderer = GetComponent<Renderer>();
         animatorComponent = transform.parent.GetComponent<Animator>();
         rigidbody = transform.parent.GetComponent<Rigidbody>();
+
+        audioSourceComponent = GetComponent<AudioSource>();
         collider = GetComponent<MeshCollider>();
         meshFilter = GetComponent<MeshFilter>();
         playerController = GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetPlayerController();

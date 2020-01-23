@@ -83,8 +83,6 @@ public class LevelLoaderScript : MonoBehaviour
     }
 
     public Level GetLevelDetails(){
-        print(currentLevel);
-        print(levels.levels);
         return levels.levels[currentLevel];
     }
 
@@ -131,7 +129,6 @@ public class LevelLoaderScript : MonoBehaviour
 
     private void UpdateWaveIndicator(){
         float progress = indicatorMax * (timer_delta / currTotalLength);
-        Debug.Log(timer_delta);
         if(progress >= indicatorMax){
             progress = indicatorMax;
         }
