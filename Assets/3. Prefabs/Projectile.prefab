@@ -112,9 +112,10 @@ MonoBehaviour:
   defaultSpeed: 6
   moving: 0
   playerLocation: {fileID: 0}
-  buyerRageAudio: {fileID: 8300000, guid: 50fbcaaaf84b7014284f5bc4a6859292, type: 3}
+  buyerRageAudio: {fileID: 8300000, guid: 7eae151e98ea6bb4c933aba8f4ba3886, type: 3}
   buyerHappyAudio: {fileID: 8300000, guid: 8fb109fce3763fd4abff05a0147c0a57, type: 3}
-  SmashPlayerAudio: {fileID: 8300000, guid: 5344018f6d4fd034fb441164c30b81f1, type: 3}
+  playerDamageAudio: {fileID: 8300000, guid: ff150858c2deeca42af11480655f8383, type: 3}
+  enemyDamageAudio: {fileID: 8300000, guid: e32953781edf1954b8a13a5faa0e99f5, type: 3}
 --- !u!82 &3802110134232175174
 AudioSource:
   m_ObjectHideFlags: 0
@@ -125,7 +126,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 0db975a93776dc9409855743b91388b9, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

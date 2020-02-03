@@ -18,7 +18,8 @@ public class ObjectController : MonoBehaviour
     [Header("Audio Setting")]
     public AudioClip buyerRageAudio;
     public AudioClip buyerHappyAudio;
-    public AudioClip SmashPlayerAudio;
+    public AudioClip playerDamageAudio;
+    public AudioClip enemyDamageAudio;
 
 
     private AudioSource audioSourceComponent;
@@ -33,6 +34,8 @@ public class ObjectController : MonoBehaviour
     private MeshFilter meshFilter;
     private bool isPlayerProjectile;
     private bool destroyThis;
+    private GameObject HoldingVFXObject;
+    private bool isFloating;
 
 
     private void Update()
@@ -41,6 +44,9 @@ public class ObjectController : MonoBehaviour
         if (moving && Vector3.Distance(transform.parent.transform.position, destination) < 0.1f)
         {
             moving = false;
+            if(HoldingVFXObject != null && !isFloating){
+                Destroy(HoldingVFXObject);
+            }
         }
         else if (moving)
         {
@@ -151,6 +157,10 @@ public class ObjectController : MonoBehaviour
         rigidbody.AddTorque(new Vector3(0f, 1f, 1f) * 200f);
     }
 
+    public void AssignVFXObject(GameObject VFXObject){
+        HoldingVFXObject = VFXObject;
+    }
+
     /* 
     * Private method
     */ 
@@ -171,12 +181,14 @@ public class ObjectController : MonoBehaviour
 
     private void SetFloatAnimation(bool play)
     {
+        isFloating = play;
         animatorComponent.SetBool("Floating", play);
         // animatorComponent.SetBool("Shaking", !play);
     }
 
     private void ResetAnimation()
     {
+        isFloating = false;
         animatorComponent.SetBool("Floating", false);
         animatorComponent.SetBool("Shaking", false);
     }
@@ -186,12 +198,14 @@ public class ObjectController : MonoBehaviour
         if (isPlayerProjectile && other.tag == "Enemy")
         {
             other.GetComponent<EnemyScript>().Trigger(damage);
-            SelfDestroy();
+            PlayAudioAndDestroy(enemyDamageAudio);
+            // SelfDestroy();
         }
         // not player projectile and hit player
         else if(!isPlayerProjectile && other.tag == "Player"){
             other.GetComponent<PlayerLifeScript>().Trigger(damage);
-            SelfDestroy();
+            PlayAudioAndDestroy(playerDamageAudio);
+            // SelfDestroy();
         }
         else if(isPlayerProjectile && other.tag == "Buyer"){
             if(other.GetComponent<BuyerScript>().Trigger(goodsType)){
@@ -199,11 +213,10 @@ public class ObjectController : MonoBehaviour
             }
             else{             
                 PlayAudio(buyerRageAudio);
+                // Wait awhile, so feel like buyer is angry and throwing
+                StartCoroutine(WaitAndShootPlayer(2));
                 
                 // playerLocation       
-                this.damage = 4;
-                isPlayerProjectile = false;
-                Shoot(playerLocation.position, 12);
             }
         }
     }
@@ -218,6 +231,13 @@ public class ObjectController : MonoBehaviour
     private void PlayAudio(AudioClip audio){
         audioSourceComponent.clip = audio;
         audioSourceComponent.Play();
+    }
+
+    private IEnumerator WaitAndShootPlayer(float sec){
+        yield return new WaitForSeconds(sec);
+        this.damage = 4;
+        isPlayerProjectile = false;
+        Shoot(playerLocation.position, 12);
     }
 
     private void PlayAudioAndDestroy(AudioClip audio){
@@ -236,7 +256,7 @@ public class ObjectController : MonoBehaviour
 
     private IEnumerator SelfDestroyAfterSoundCoroutine(){
         float waitFor = audioSourceComponent.clip.length;
-        yield return new WaitForSecondsRealtime(waitFor);
+        yield return new WaitForSeconds(waitFor);
         // SelfDestroy();
         destroyThis = true;
         yield return null;

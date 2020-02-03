@@ -814,7 +814,6 @@ Transform:
   m_LocalScale: {x: 0.95, y: 0.95, z: 0.95}
   m_Children:
   - {fileID: 3290094911118525656}
-  - {fileID: 3333414970317365242}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1647,6 +1646,7 @@ GameObject:
   - component: {fileID: 3290094911118525661}
   - component: {fileID: 3290094911118525662}
   - component: {fileID: 3290094911118525663}
+  - component: {fileID: 8221857933057135526}
   m_Layer: 0
   m_Name: Character_Peasant
   m_TagString: Buyer
@@ -1666,6 +1666,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3290094910935726355}
+  - {fileID: 3333414970317365242}
   m_Father: {fileID: 3290094910335220927}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1807,6 +1808,45 @@ MonoBehaviour:
   rageAttackMesh: {fileID: 4300000, guid: cc1ab28143b379d47b8584153bd973a7, type: 3}
   damage: 4
   shootingSpeed: 12
+--- !u!114 &8221857933057135526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3290094911118525657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a62e30da75479349809a76e3202cfcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dissolveShader: {fileID: 4800000, guid: 8f448cd4d5dac5047b5f9a86cb739085, type: 3}
+  spawnEffectTime: 4
+  pause: 1
+  fadeIn:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &3290094911161755112
 GameObject:
   m_ObjectHideFlags: 0
@@ -2624,8 +2664,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3333414970317365242}
   - component: {fileID: 6591472361854055503}
+  - component: {fileID: 4676046968547559620}
   m_Layer: 0
-  m_Name: Pear
+  m_Name: Goods
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2643,7 +2684,7 @@ Transform:
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 2254847282913958348}
-  m_Father: {fileID: 3290094910335220927}
+  m_Father: {fileID: 3290094911118525656}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &6591472361854055503
@@ -2665,3 +2706,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &4676046968547559620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3333414970317365237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b93916cc991f1f44ba3ee4fa00f1389, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

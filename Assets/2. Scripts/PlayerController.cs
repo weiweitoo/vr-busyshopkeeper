@@ -67,6 +67,7 @@ public class PlayerController : MonoBehaviour
 
     private void CreateHoldingEffect(){
         GameObject effect = Instantiate(holdingEffect, holding.transform.position, Quaternion.identity);
+        holding.GetComponentInChildren<ObjectController>().AssignVFXObject(effect);
         effect.transform.SetParent(holding.transform);
     }
 

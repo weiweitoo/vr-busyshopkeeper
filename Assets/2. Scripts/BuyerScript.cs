@@ -38,13 +38,14 @@ public class BuyerScript : MonoBehaviour
     private State currState;
     private bool moving;
     private bool isRage;
-
+    private DissolveScript dissolveScript;
     void Start()
     {
         isRage = false;
         moving = true;
         playerPosition = GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetPlayerPosition();
         animatorComponent = GetComponentInParent<Animator>();
+        dissolveScript = GetComponent<DissolveScript>();
         currState = State.Run;
         animatorComponent.SetBool("Walk", true);
         UpdatebuyerCentrePoint();
@@ -78,8 +79,7 @@ public class BuyerScript : MonoBehaviour
     public bool Trigger(GoodsType goodsType)
     {
         if(goodsType == buyerType){
-            GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetBuyerManager().releaseSlot(transform.parent.gameObject);
-            Destroy(transform.parent.gameObject);
+            SelfDestroy();
             return true;
         }
         else{
@@ -100,8 +100,7 @@ public class BuyerScript : MonoBehaviour
             isRage = true;
             ShootProjectile();
             // Shot then self destroy
-            GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetBuyerManager().releaseSlot(transform.parent.gameObject);
-            Destroy(transform.parent.gameObject);
+            SelfDestroy();
         }
     }
 
@@ -154,5 +153,19 @@ public class BuyerScript : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    private void SelfDestroy()
+    {
+        StartCoroutine(SelfDestroyCoroutine());
+    }
+
+    private IEnumerator SelfDestroyCoroutine()
+    {
+        // Destroy the goods on head only start cast dissolve animation
+        gameObject.transform.Find("Goods").GetComponent<SelfDestroyScript>().SelfDestroy();
+        yield return StartCoroutine(dissolveScript.Dissolve());
+        GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetBuyerManager().releaseSlot(transform.parent.gameObject);
+        Destroy(transform.parent.gameObject);
     }
 }
