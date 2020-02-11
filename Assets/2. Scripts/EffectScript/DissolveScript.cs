@@ -46,7 +46,5 @@ public class DissolveScript : MonoBehaviour
         rendererComponent.material.shader = dissolveShader;
         dissolving = true;
         yield return new WaitForSeconds(spawnEffectTime + pause);
-        Debug.Log("Waiting");
-        yield return null;
     }
 }

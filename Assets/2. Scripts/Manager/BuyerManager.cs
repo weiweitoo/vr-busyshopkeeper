@@ -45,18 +45,34 @@ public class BuyerManager : MonoBehaviour
         }
     }
 
-    public void SpawnBuyer(){
+    public GameObject SpawnBuyer(){
         GameObject choosenPrefab = spawnable[Random.Range(0, spawnable.Count)];
         // Debug.Log(choosenPrefab.GetComponentInChildren<BuyerScript>().buyerName);
         while(!level.stocks.Contains(choosenPrefab.GetComponentInChildren<BuyerScript>().buyerName)){
             choosenPrefab = spawnable[Random.Range(0, spawnable.Count)];
         }
+        // Generated the buyer
+        GameObject generatedObject = Instantiate(choosenPrefab, spawnPoint.localPosition, Quaternion.identity);
+        generatedObject.GetComponentInChildren<BuyerScript>().SetBuyerProfile(centrePoint, 3.0f);
+        generatedObject.transform.SetParent(buyerManager.transform);
+        buyerList.Add(generatedObject);
+        return generatedObject;
+    }
+
+    public GameObject SpawnBuyerByIndex(int index){
+        if (index > spawnable.Count){
+            Debug.Log("Out of range for SpawnBuyerByIndex for index " + index);
+            return null;
+        }
+
+        GameObject choosenPrefab = spawnable[index];
 
         // Generated the buyer
         GameObject generatedObject = Instantiate(choosenPrefab, spawnPoint.localPosition, Quaternion.identity);
         generatedObject.GetComponentInChildren<BuyerScript>().SetBuyerProfile(centrePoint, 3.0f);
         generatedObject.transform.SetParent(buyerManager.transform);
         buyerList.Add(generatedObject);
+        return generatedObject;
     }
 
     public void releaseSlot(GameObject buyer){
@@ -65,4 +81,7 @@ public class BuyerManager : MonoBehaviour
         }
     }
 
+    public int getBuyerCount(){
+        return buyerList.Count;
+    }
 }

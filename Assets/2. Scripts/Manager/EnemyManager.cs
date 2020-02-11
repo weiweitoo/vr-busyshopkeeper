@@ -53,7 +53,7 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    public void SpawnEnemy(){
+    public GameObject SpawnEnemy(){
         // Get a spawnpoint
         Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
         while(occupiedSpace.Contains(spawnPoint)){
@@ -73,6 +73,7 @@ public class EnemyManager : MonoBehaviour
         generatedObject.transform.parent = spawnPoint;
         currEnemys.Add(generatedObject);
         occupiedSpace.Add(spawnPoint);
+        return generatedObject;
     }
 
     public void releaseSlot(GameObject enemy, GameObject spawnPoint){
@@ -82,5 +83,7 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    
+    public int getEnemyCount(){
+        return currEnemys.Count;
+    }
 }

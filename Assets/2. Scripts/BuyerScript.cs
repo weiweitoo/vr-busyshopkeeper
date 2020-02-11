@@ -7,8 +7,7 @@ public class BuyerScript : MonoBehaviour
     enum State
     {
         Run,
-        Waiting,
-        Flying
+        Dead
     }
     public enum GoodsType
     {
@@ -53,7 +52,12 @@ public class BuyerScript : MonoBehaviour
 
     void Update()
     {
+        // if it is dead, stop the update, it will self destroy later
+        if(currState == State.Dead){
+            return;
+        }
 
+        // move it
         if (moving && Vector3.Distance(transform.parent.transform.localPosition, destPoint) < centerDistance)
         {
             moving = false;
@@ -66,6 +70,7 @@ public class BuyerScript : MonoBehaviour
             MoveToUpdate(destPoint, movingSpeed);
         }
 
+        // Check for rage
         UpdateTimer();
         CheckRage();
     }
@@ -157,6 +162,7 @@ public class BuyerScript : MonoBehaviour
 
     private void SelfDestroy()
     {
+        currState = State.Dead;
         StartCoroutine(SelfDestroyCoroutine());
     }
 

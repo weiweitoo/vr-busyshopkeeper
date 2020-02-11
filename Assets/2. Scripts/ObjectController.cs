@@ -19,7 +19,8 @@ public class ObjectController : MonoBehaviour
     public AudioClip buyerRageAudio;
     public AudioClip buyerHappyAudio;
     public AudioClip playerDamageAudio;
-    public AudioClip enemyDamageAudio;
+    public AudioClip playerShootAudio;
+    public AudioClip floatingAudio;
 
 
     private AudioSource audioSourceComponent;
@@ -111,6 +112,7 @@ public class ObjectController : MonoBehaviour
                 MoveTo(newPos, 1f);
             }
 
+            PlayAudio(floatingAudio);
             // Hold it and play animation
             SetFloatAnimation(true);
             rigidbody.useGravity = false;
@@ -125,7 +127,6 @@ public class ObjectController : MonoBehaviour
         playerController.Release();
     }
 
-    
     public bool Trigger(Vector3 dest)
     {
         // If it is still moving upward, stop it from moving again
@@ -137,7 +138,8 @@ public class ObjectController : MonoBehaviour
         {
             return false;
         }
-
+        
+        PlayAudio(playerShootAudio);
         Shoot(dest, defaultSpeed);
         // DrawRayCast(dest);
         return true;
@@ -198,8 +200,9 @@ public class ObjectController : MonoBehaviour
         if (isPlayerProjectile && other.tag == "Enemy")
         {
             other.GetComponent<EnemyScript>().Trigger(damage);
-            PlayAudioAndDestroy(enemyDamageAudio);
-            // SelfDestroy();
+            // PlayAudioAndDestroy(enemyDamageAudio);
+            // Migrate the audio playing sound to enemyscript itself
+            SelfDestroy();
         }
         // not player projectile and hit player
         else if(!isPlayerProjectile && other.tag == "Player"){

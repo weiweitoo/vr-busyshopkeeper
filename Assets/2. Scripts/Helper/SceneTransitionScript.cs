@@ -9,6 +9,6 @@ public class SceneTransitionScript : MonoBehaviour
     public Color transitionColor;
 
     public void TransitionTo(){
-        Initiate.Fade(sceneName, transitionColor, 1.0f);
+        Initiate.Fade(sceneName, transitionColor, 3.0f);
     }
 }

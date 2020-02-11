@@ -22,6 +22,15 @@ public class GameStateManager : MonoBehaviour
 
     void Start() {
         isWaveEnd = false;
+        ShowLevelMessageBox();
+    }
+
+    private void ShowLevelMessageBox(){
+        StartCoroutine(ShowLevelMessageBoxCoroutine());
+    }
+
+    private IEnumerator ShowLevelMessageBoxCoroutine(){
+        yield return StartCoroutine(GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetMessageBoxManager().SummonBox("Level: " + PlayerPrefs.GetInt("Level", 0), 4.0f));
     }
 
     private void Update() {
@@ -51,11 +60,11 @@ public class GameStateManager : MonoBehaviour
     }
 
     public void Win(){
-        Initiate.Fade("StartScene", Color.white, 3.0f);
+        Initiate.Fade("StartScene", Color.black, 3.0f);
     }
     
     public void Dead(){
-        Initiate.Fade("StartScene", Color.red, 3.0f);
+        StartCoroutine(DeadCoroutine());
     }
 
     public void SetWaveEnd(){
@@ -63,9 +72,27 @@ public class GameStateManager : MonoBehaviour
     }
 
     private void NextLevel(){
+        StartCoroutine(NextLevelCoroutine());
+    }
+
+    private IEnumerator SummonScoreboard(){
+        yield return StartCoroutine(GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetMessageBoxManager().SummonScoreBoard("Time Required/Task = 2.34s\nTotal Damage Taken = 16\nCustomer Serve = 14\nMercenary Killed = 10\n", 8.0f));
+        // yield return new WaitForSeconds(8.0f);
+    }
+
+    private IEnumerator NextLevelCoroutine(){
+        StartCoroutine(SummonScoreboard());
+        yield return StartCoroutine(GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetSoundManager().playLevelWinUntilEnd());
         Debug.Log("Move to next level");
         int newLevel = PlayerPrefs.GetInt("Level") + 1;
         PlayerPrefs.SetInt("Level", newLevel);
-        SceneManager.LoadScene("GamePlay");
+        // SceneManager.LoadScene("GamePlay");
+        Initiate.Fade("StartScene", Color.black, 3.0f);
+    }
+
+    private IEnumerator DeadCoroutine(){
+        StartCoroutine(SummonScoreboard());
+        yield return StartCoroutine(GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetSoundManager().playLevelLossUntilEnd());
+        Initiate.Fade("StartScene", Color.black, 3.0f);
     }
 }

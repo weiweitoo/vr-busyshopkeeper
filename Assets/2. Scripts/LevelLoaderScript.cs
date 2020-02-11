@@ -33,6 +33,7 @@ public class LevelLoaderScript : MonoBehaviour
     public GameObject waveProgressIndicator;
     public GameObject wave1Indicator;
     public GameObject wave2Indicator;
+    public GameObject waveIndicatorWrapper;
     public Text levelText;
     public float indicatorMax;
     public TextAsset jsonFile;
@@ -65,9 +66,15 @@ public class LevelLoaderScript : MonoBehaviour
     }
 
     private void Update(){
-        UpdateTimer();
-        UpdateWaveState();
-        UpdateWaveIndicator();
+        // If is not tutorial then count for level state
+        if(!GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetGameStateManager().getIsTutorial()){
+            UpdateTimer();
+            UpdateWaveState();
+            UpdateWaveIndicator();
+        }
+        else{
+            hideLevelIndicator();
+        }
     }
 
     public bool NextLevel(){
@@ -91,8 +98,13 @@ public class LevelLoaderScript : MonoBehaviour
         timer_second = timer_delta % 60;
     }
 
+    private void hideLevelIndicator(){
+        waveIndicatorWrapper.SetActive(false);
+    }
+
     private void UpdateWaveState(){
         if(waveState == WaveState.Warmup && timer_delta >= (currTotalLength / 4)){
+            GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetSoundManager().playBossWave();
             waveState = WaveState.Wave1;
             buyerManager.SetInterval(level.wave_1-1-1, level.wave_1+1-1); // buyer spawn faster 1 second then enemy
             enemyManager.SetInterval(level.wave_1-1, level.wave_1+1);
@@ -105,6 +117,7 @@ public class LevelLoaderScript : MonoBehaviour
             Debug.Log("Enter Buffer");
         }
         else if(waveState == WaveState.Buffer && timer_delta >= (currTotalLength - 20)){
+            GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetSoundManager().playBossWave();
             waveState = WaveState.Wave2;
             buyerManager.SetInterval(level.wave_2-1-1, level.wave_2+1-1); // buyer spawn faster 1 second then enemy
             enemyManager.SetInterval(level.wave_2-1, level.wave_2+1);

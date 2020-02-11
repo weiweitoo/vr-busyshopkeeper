@@ -13261,6 +13261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holding: {fileID: 0}
+  holdingEffect: {fileID: 0}
   raycastPoint: {fileID: 1128589373}
 --- !u!4 &329041550
 Transform:
@@ -21742,7 +21743,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: GamePlay
-  transitionColor: {r: 0, g: 0, b: 0, a: 0}
+  transitionColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &539335041
 GameObject:
   m_ObjectHideFlags: 0
@@ -59036,6 +59037,8 @@ MonoBehaviour:
   currHp: 0
   healthMin: 0
   healInterval: 0
+  healingEffect: {fileID: 0}
+  isHealing: 0
 --- !u!1001 &1354110779
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -85673,7 +85676,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: Blank
-  transitionColor: {r: 0, g: 0, b: 0, a: 0}
+  transitionColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!114 &2022982052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86575,7 +86578,7 @@ Camera:
   m_GameObject: {fileID: 2044960138}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0.019607844}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}

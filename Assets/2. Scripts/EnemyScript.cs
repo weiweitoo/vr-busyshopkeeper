@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class EnemyScript : MonoBehaviour
 {
     enum State
@@ -18,7 +19,12 @@ public class EnemyScript : MonoBehaviour
     public float shootingSpeed;
     public float intervalMin;
     public float intervalMax;
+    public AudioClip enemyDamageAudio;
+    public AudioClip enemyDeadAudio;
+    public AudioClip enemyAttackAudio;
 
+
+    private AudioSource audioSourceComponent;
     private Animator animatorComponent;
     private State currState;
     private Transform playerPosition;
@@ -26,16 +32,30 @@ public class EnemyScript : MonoBehaviour
 
     void Start()
     {
+        audioSourceComponent = GetComponent<AudioSource>();
         animatorComponent = GetComponent<Animator>();
         dissolveScript = GetComponent<DissolveScript>();
         currState = State.idle;
         StartCoroutine(ShootProjectileCoroutine());
     }
 
+    void Update() {
+
+        // // if it is dead, stop the update, it will self destroy later
+        // if(currState == State.Dead){
+        //     return;
+        // }
+    }
+
     public IEnumerator ShootProjectileCoroutine()
     {
         while (true)
         {
+            // if it is dead, stop the action, it will self destroy later
+            if(currState == State.Dead){
+                break;
+            }
+
             yield return new WaitForSeconds(Random.Range(intervalMin, intervalMax));
             ShootProjectile();
         }
@@ -54,6 +74,7 @@ public class EnemyScript : MonoBehaviour
 
     private void ShootProjectile()
     {
+        PlayAudio(enemyAttackAudio);
         GameObject generatedObject = Instantiate(projectile, transform.position, Quaternion.identity);
         ObjectController objectController = generatedObject.GetComponentInChildren<ObjectController>();
         objectController.setProfile(playerPosition, projectileMesh, BuyerScript.GoodsType.None, damage, false);
@@ -65,18 +86,27 @@ public class EnemyScript : MonoBehaviour
         StartCoroutine(TakeDamageCoroutine(dam));
     }
 
+    private void PlayAudio(AudioClip audio){
+        audioSourceComponent.clip = audio;
+        audioSourceComponent.Play();
+    }
+
     private IEnumerator TakeDamageCoroutine(float dam)
     {
         hp -= dam;
         // check if dead
         if (hp <= 0)
         {
+            PlayAudio(enemyDeadAudio);
             yield return StartCoroutine(dissolveScript.Dissolve());
             currState = State.Dead;
             GameObject parentObject = transform.parent.gameObject;
             GameObject spawnPointObject = transform.parent.parent.gameObject;
             GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetEnemyManager().releaseSlot(parentObject, spawnPointObject);
             Destroy(parentObject);
+        }
+        else{
+            PlayAudio(enemyDamageAudio);
         }
         yield return null;
     }

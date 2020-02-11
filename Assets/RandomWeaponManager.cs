@@ -2,11 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameInitScript : MonoBehaviour
+public class RandomWeaponManager : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        PlayerPrefs.SetInt("Level", 2);
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
     }
 }

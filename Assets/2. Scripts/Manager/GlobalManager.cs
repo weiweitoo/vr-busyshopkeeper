@@ -11,6 +11,7 @@ public class GlobalManager : MonoBehaviour
     public GameObject levelLoaderManager;
     public GameObject messageBoxManager;
     public GameObject fruitManager;
+    public GameObject soundManager;
     public Transform playerPosition;
 
     public Transform GetPlayerPosition(){
@@ -42,6 +43,10 @@ public class GlobalManager : MonoBehaviour
 
     public FruitManager GetFruitManager(){
         return fruitManager.GetComponent<FruitManager>();
+    }
+
+    public SoundManager GetSoundManager(){
+        return soundManager.GetComponent<SoundManager>();
     }
 }
 
