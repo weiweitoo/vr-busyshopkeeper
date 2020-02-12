@@ -80,6 +80,7 @@ public class EnemyManager : MonoBehaviour
         if(occupiedSpace.Contains(spawnPoint.transform)){
             currEnemys.Remove(enemy);
             occupiedSpace.Remove(spawnPoint.transform);
+            GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetGameScoreManager().GetComponent<GameScoreBoardManager>().AddMercenary();
         }
     }
 

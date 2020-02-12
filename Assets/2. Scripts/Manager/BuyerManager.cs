@@ -61,7 +61,6 @@ public class BuyerManager : MonoBehaviour
 
     public GameObject SpawnBuyerByIndex(int index){
         if (index > spawnable.Count){
-            Debug.Log("Out of range for SpawnBuyerByIndex for index " + index);
             return null;
         }
 

@@ -53,7 +53,7 @@ public class BuyerScript : MonoBehaviour
     void Update()
     {
         // if it is dead, stop the update, it will self destroy later
-        if(currState == State.Dead){
+        if(currState == State.Dead || GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetGameStateManager().IsGameStop()){
             return;
         }
 
@@ -84,6 +84,7 @@ public class BuyerScript : MonoBehaviour
     public bool Trigger(GoodsType goodsType)
     {
         if(goodsType == buyerType){
+            GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetGameScoreManager().GetComponent<GameScoreBoardManager>().AddBuyerServe();
             SelfDestroy();
             return true;
         }
@@ -104,6 +105,7 @@ public class BuyerScript : MonoBehaviour
         if(!isRage && timer_second > rageTime){
             isRage = true;
             ShootProjectile();
+            GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetGameScoreManager().GetComponent<GameScoreBoardManager>().AddBuyerRage();
             // Shot then self destroy
             SelfDestroy();
         }

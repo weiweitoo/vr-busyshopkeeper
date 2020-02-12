@@ -17,7 +17,6 @@ public class MessageBoxManager : MonoBehaviour
         generatedObject.transform.SetParent(messageBoxCanvas.transform, false);
         yield return new WaitForSeconds(time);
         Destroy(generatedObject);
-        yield return null;
     }
 
     public IEnumerator SummonScoreBoard(string text, float time){
@@ -28,6 +27,5 @@ public class MessageBoxManager : MonoBehaviour
         generatedObject.transform.SetParent(messageBoxCanvas.transform, false);
         yield return new WaitForSeconds(time);
         Destroy(generatedObject);
-        yield return null;
     }
 }

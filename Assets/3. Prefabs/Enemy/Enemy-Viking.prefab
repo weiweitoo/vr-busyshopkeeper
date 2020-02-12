@@ -1216,7 +1216,7 @@ MonoBehaviour:
   projectileName: Axe
   projectile: {fileID: 4234184900169942224, guid: a74b19b5f54f0884dbcb3b4e0447ca01,
     type: 3}
-  projectileMesh: {fileID: 4300000, guid: 18dee7feb9f9e85419f8b9be8e660aab, type: 3}
+  projectileMesh: {fileID: 4300000, guid: b2a8eab5f052f5b42804fad43a2af848, type: 3}
   damage: 6
   shootingSpeed: 3
   intervalMin: 16

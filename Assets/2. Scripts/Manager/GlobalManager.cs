@@ -12,6 +12,7 @@ public class GlobalManager : MonoBehaviour
     public GameObject messageBoxManager;
     public GameObject fruitManager;
     public GameObject soundManager;
+    public GameObject gameScoreBoardManager;
     public Transform playerPosition;
 
     public Transform GetPlayerPosition(){
@@ -19,6 +20,7 @@ public class GlobalManager : MonoBehaviour
     }
 
     public GameStateManager GetGameStateManager(){
+        print(gameStateManager);
         return gameStateManager.GetComponent<GameStateManager>();
     }
     public PlayerController GetPlayerController(){
@@ -47,6 +49,10 @@ public class GlobalManager : MonoBehaviour
 
     public SoundManager GetSoundManager(){
         return soundManager.GetComponent<SoundManager>();
+    }
+
+    public GameScoreBoardManager GetGameScoreManager(){
+        return gameScoreBoardManager.GetComponent<GameScoreBoardManager>();
     }
 }
 

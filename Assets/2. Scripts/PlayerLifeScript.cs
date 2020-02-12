@@ -107,12 +107,14 @@ public class PlayerLifeScript : MonoBehaviour
     {
         currHp += healAmount;
         regenCount += 1;
+        GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetGameScoreManager().GetComponent<GameScoreBoardManager>().AddHeal();
     }
 
     private void TakeDamage(float dam)
     {
         currHp -= dam;
         ResetRegenTimer();
+        GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetGameScoreManager().GetComponent<GameScoreBoardManager>().AddDamage();
         if (currHp <= 0)
         {
             currHp = 0;

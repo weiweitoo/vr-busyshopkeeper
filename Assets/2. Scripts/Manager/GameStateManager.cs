@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Tengio;
 using UnityEngine.SceneManagement; //So you can use SceneManager
 
 public class GameStateManager : MonoBehaviour
@@ -10,6 +11,7 @@ public class GameStateManager : MonoBehaviour
 
     public bool enemyEnd;
     public bool buyerEnd;
+    public bool isPause;
 
     void Awake() {
         if(PlayerPrefs.GetInt("Level", 0) == 0){
@@ -22,6 +24,7 @@ public class GameStateManager : MonoBehaviour
 
     void Start() {
         isWaveEnd = false;
+        isPause = false;
         ShowLevelMessageBox();
     }
 
@@ -59,16 +62,24 @@ public class GameStateManager : MonoBehaviour
         return isWaveEnd;
     }
 
+    
+
     public void Win(){
-        Initiate.Fade("StartScene", Color.black, 3.0f);
+        GetComponent<SceneLoader>().LoadScene("StartScene");
     }
     
     public void Dead(){
+        isPause = true;
         StartCoroutine(DeadCoroutine());
     }
 
     public void SetWaveEnd(){
         isWaveEnd = true;
+        isPause = true;
+    }
+
+    public bool IsGameStop(){
+        return isPause || isWaveEnd;
     }
 
     private void NextLevel(){
@@ -76,23 +87,33 @@ public class GameStateManager : MonoBehaviour
     }
 
     private IEnumerator SummonScoreboard(){
-        yield return StartCoroutine(GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetMessageBoxManager().SummonScoreBoard("Time Required/Task = 2.34s\nTotal Damage Taken = 16\nCustomer Serve = 14\nMercenary Killed = 10\n", 8.0f));
+        float totalDamage = GameObject.Find("GameScoreBoardManager").GetComponent<GameScoreBoardManager>().GetDamage();
+        float totalHeal = GameObject.Find("GameScoreBoardManager").GetComponent<GameScoreBoardManager>().GetHeal();
+        float totalMercenary = GameObject.Find("GameScoreBoardManager").GetComponent<GameScoreBoardManager>().GetMercenary();
+        float totalBuyerRage = GameObject.Find("GameScoreBoardManager").GetComponent<GameScoreBoardManager>().GetBuyerRage();
+        float totalBuyerServe = GameObject.Find("GameScoreBoardManager").GetComponent<GameScoreBoardManager>().GetBuyerServe();
+        double averageTask = GameObject.Find("GameScoreBoardManager").GetComponent<GameScoreBoardManager>().GetAverageTask();
+
+        yield return StartCoroutine(GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetMessageBoxManager().SummonScoreBoard("Time Required/Task = " + averageTask + "s\nTotal Damage Taken = " + totalDamage + "\nCustomer Serve = " + totalBuyerServe + "\nCustomer Rage = " + totalBuyerRage + "\nMercenary Killed = " + totalMercenary + "\n", 10.0f));
         // yield return new WaitForSeconds(8.0f);
     }
 
     private IEnumerator NextLevelCoroutine(){
-        StartCoroutine(SummonScoreboard());
+        yield return StartCoroutine(SummonScoreboard());
         yield return StartCoroutine(GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetSoundManager().playLevelWinUntilEnd());
         Debug.Log("Move to next level");
         int newLevel = PlayerPrefs.GetInt("Level") + 1;
         PlayerPrefs.SetInt("Level", newLevel);
         // SceneManager.LoadScene("GamePlay");
-        Initiate.Fade("StartScene", Color.black, 3.0f);
+        GetComponent<SceneLoader>().LoadScene("StartScene");
+        // Initiate.Fade("StartScene", Color.black, 3.0f);
     }
 
     private IEnumerator DeadCoroutine(){
-        StartCoroutine(SummonScoreboard());
+        yield return StartCoroutine(SummonScoreboard());
         yield return StartCoroutine(GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetSoundManager().playLevelLossUntilEnd());
-        Initiate.Fade("StartScene", Color.black, 3.0f);
+        
+        GetComponent<SceneLoader>().LoadScene("StartScene");
+        // Initiate.Fade("StartScene", Color.black, 3.0f);
     }
 }

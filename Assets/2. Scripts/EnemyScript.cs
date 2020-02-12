@@ -52,7 +52,7 @@ public class EnemyScript : MonoBehaviour
         while (true)
         {
             // if it is dead, stop the action, it will self destroy later
-            if(currState == State.Dead){
+            if(currState == State.Dead || GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetGameStateManager().IsGameStop()){
                 break;
             }
 
