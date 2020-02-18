@@ -100,6 +100,7 @@ public class ObjectController : MonoBehaviour
         // If do not hold anything, hold it, else do nothing
         if (playerController.GetHoldedObject() == null)
         {
+            PlayAudio(floatingAudio);
             // If this projectile is on ground(player projectile), make it fly up
             if(isPlayerProjectile){
                 Vector3 currPos = transform.parent.transform.localPosition;
@@ -112,7 +113,6 @@ public class ObjectController : MonoBehaviour
                 MoveTo(newPos, 1f);
             }
 
-            PlayAudio(floatingAudio);
             // Hold it and play animation
             SetFloatAnimation(true);
             rigidbody.useGravity = false;
@@ -125,6 +125,10 @@ public class ObjectController : MonoBehaviour
         ResetAnimation();
         rigidbody.useGravity = true;
         playerController.Release();
+
+        if(HoldingVFXObject != null){
+            Destroy(HoldingVFXObject);
+        }
     }
 
     public bool Trigger(Vector3 dest)

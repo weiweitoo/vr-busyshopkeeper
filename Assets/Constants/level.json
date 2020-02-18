@@ -8,15 +8,31 @@
                 "Warrior"
             ],
             "weapon" : [
-                "Dagger"
+                "Sword"
             ],
             "normal_interval" : 14,
             "wave_1" : 12,
             "wave_2" : 10,
-            "total_length" : 60
+            "total_length" : 120
         },
         {
             "level" : 2,
+            "stocks" : [
+                "AppleWhite"
+            ],
+            "enemy" : [
+                "Warrior"
+            ],
+            "weapon" : [
+                "Sword"
+            ],
+            "normal_interval" : 13,
+            "wave_1" : 10,
+            "wave_2" : 8,
+            "total_length" : 120
+        },
+        {
+            "level" : 3,
             "stocks" : [
                 "AppleWhite",
                 "AppleRed"
@@ -26,34 +42,12 @@
                 "Knight"
             ],
             "weapon" : [
-                "Dagger",
                 "Sword"
             ],
-            "normal_interval" : 13,
-            "wave_1" : 11,
-            "wave_2" : 9,
-            "total_length" : 80
-        },
-        {
-            "level" : 3,
-            "stocks" : [
-                "AppleWhite",
-                "AppleRed",
-                "Pear"
-            ],
-            "enemy" : [
-                "Warrior",
-                "Knight"
-            ],
-            "weapon" : [
-                "Dagger",
-                "Sword",
-                "Axe"
-            ],
             "normal_interval" : 12,
-            "wave_1" : 10,
-            "wave_2" : 8,
-            "total_length" : 100
+            "wave_1" : 9,
+            "wave_2" : 7,
+            "total_length" : 150
         },
         {
             "level" : 4,
@@ -68,14 +62,12 @@
                 "Viking"
             ],
             "weapon" : [
-                "Dagger",
-                "Sword",
-                "Axe"
+                "Sword"
             ],
             "normal_interval" : 11,
-            "wave_1" : 9,
-            "wave_2" : 7,
-            "total_length" : 100
+            "wave_1" : 8,
+            "wave_2" : 6,
+            "total_length" : 150
         }
     ]
 }

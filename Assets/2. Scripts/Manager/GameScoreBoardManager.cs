@@ -14,7 +14,9 @@ public class GameScoreBoardManager : MonoBehaviour
     private float timer_delta = 0f; 
 
     void Update(){
-        UpdateTimer();
+        if(!GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetGameStateManager().IsGameStop()){
+            UpdateTimer();
+        }
     }
 
     private void UpdateTimer(){

@@ -1878,8 +1878,8 @@ MonoBehaviour:
   projectileMesh: {fileID: 4300000, guid: 1b46245eea497c0468410673eb04432f, type: 3}
   damage: 4
   shootingSpeed: 3
-  intervalMin: 12
-  intervalMax: 16
+  intervalMin: 8
+  intervalMax: 12
   enemyDamageAudio: {fileID: 8300000, guid: 9de80d9b032276b4ca21b4c91cfe8146, type: 3}
   enemyDeadAudio: {fileID: 8300000, guid: 7563613c0ca15904381817eef04bbb37, type: 3}
   enemyAttackAudio: {fileID: 8300000, guid: f291428ca43574c4c848f1bb9e5b065a, type: 3}

@@ -116,7 +116,7 @@ MonoBehaviour:
   buyerHappyAudio: {fileID: 8300000, guid: 8fb109fce3763fd4abff05a0147c0a57, type: 3}
   playerDamageAudio: {fileID: 8300000, guid: ff150858c2deeca42af11480655f8383, type: 3}
   playerShootAudio: {fileID: 8300000, guid: d60b53ac81d7b7246a580f19b71f8eb0, type: 3}
-  floatingAudio: {fileID: 8300000, guid: ae204f89cf0323b4d9a13fbaa77c2bf3, type: 3}
+  floatingAudio: {fileID: 8300000, guid: c6a0192b2b987ed4999ef25d745d703f, type: 3}
 --- !u!82 &3802110134232175174
 AudioSource:
   m_ObjectHideFlags: 0

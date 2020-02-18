@@ -12,9 +12,11 @@ public class GameStateManager : MonoBehaviour
     public bool enemyEnd;
     public bool buyerEnd;
     public bool isPause;
+    public int currLevel;
 
     void Awake() {
-        if(PlayerPrefs.GetInt("Level", 0) == 0){
+        currLevel = PlayerPrefs.GetInt("Level", 0);
+        if(currLevel == 0){
             isTutorial = true;
         }
         else{
@@ -33,15 +35,25 @@ public class GameStateManager : MonoBehaviour
     }
 
     private IEnumerator ShowLevelMessageBoxCoroutine(){
-        yield return StartCoroutine(GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetMessageBoxManager().SummonBox("Level: " + PlayerPrefs.GetInt("Level", 0), 4.0f));
+        // yield return StartCoroutine(GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetMessageBoxManager().SummonBox("Level: " + currLevel, 4.0f));
+        if(currLevel == 1){
+            yield return StartCoroutine(GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetMessageBoxManager().SummonBox("All the best!", 4.0f));
+        }
+        if(currLevel == 2){
+            yield return StartCoroutine(GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetMessageBoxManager().SummonBox("Level: " + currLevel + "\n[New Challange]\n" + "Red Apple Buyer: Shorter\nKnight Enemy: Attack frequent and durable", 4.0f));
+        }
+        else if(currLevel == 3){
+            yield return StartCoroutine(GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetMessageBoxManager().SummonBox("Level: " + currLevel + "\n[New Challange]\n" + "Orange Pear Buyer: Faster get rage\nViking Enemy: High damage but less attack", 4.0f));
+        }
     }
 
-    private void Update() {
-        if(isWaveEnd){
+    void Update() {
+        if(isWaveEnd && isPause == false){
             enemyEnd = GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetEnemyManager().currEnemys.Count <= 0;
             buyerEnd = GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetBuyerManager().buyerList.Count <= 0;
 
             if(enemyEnd && buyerEnd){
+                isPause = true;
 
                 // Total 4 level(0,1,2,3)
                 if(PlayerPrefs.GetInt("Level") >= 2){
@@ -62,8 +74,6 @@ public class GameStateManager : MonoBehaviour
         return isWaveEnd;
     }
 
-    
-
     public void Win(){
         GetComponent<SceneLoader>().LoadScene("StartScene");
     }
@@ -75,7 +85,6 @@ public class GameStateManager : MonoBehaviour
 
     public void SetWaveEnd(){
         isWaveEnd = true;
-        isPause = true;
     }
 
     public bool IsGameStop(){
@@ -105,8 +114,18 @@ public class GameStateManager : MonoBehaviour
         int newLevel = PlayerPrefs.GetInt("Level") + 1;
         PlayerPrefs.SetInt("Level", newLevel);
         // SceneManager.LoadScene("GamePlay");
-        GetComponent<SceneLoader>().LoadScene("StartScene");
+        GetComponent<SceneLoader>().LoadScene("GamePlay");
         // Initiate.Fade("StartScene", Color.black, 3.0f);
+    }
+
+    private IEnumerator WinCoroutine(){
+        yield return StartCoroutine(SummonScoreboard());
+        yield return StartCoroutine(GameObject.Find("GlobalManager").GetComponent<GlobalManager>().GetSoundManager().playLevelWinUntilEnd());
+        Debug.Log("Won");
+        int newLevel = PlayerPrefs.GetInt("Level") + 1;
+        PlayerPrefs.SetInt("Level", newLevel);
+        // SceneManager.LoadScene("GamePlay");
+        GetComponent<SceneLoader>().LoadScene("StartScene");
     }
 
     private IEnumerator DeadCoroutine(){

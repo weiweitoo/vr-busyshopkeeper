@@ -35,11 +35,11 @@ public class PlayerLifeScript : MonoBehaviour
     void Update()
     {
         if(allowHealing == true && currHp < maxHp){
-            UpdateHPText();
             UpdateTimer();
             CheckHealthRegen();
             playHealingEffect();
         }
+        UpdateHPText();
     }
 
     public void Trigger(float damage)
