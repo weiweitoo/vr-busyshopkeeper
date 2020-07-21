@@ -112,8 +112,8 @@ MonoBehaviour:
   defaultSpeed: 6
   moving: 0
   playerLocation: {fileID: 0}
-  buyerRageAudio: {fileID: 8300000, guid: 7eae151e98ea6bb4c933aba8f4ba3886, type: 3}
-  buyerHappyAudio: {fileID: 8300000, guid: 8fb109fce3763fd4abff05a0147c0a57, type: 3}
+  buyerRageAudio: {fileID: 8300000, guid: f6b67a1a1f6e00043952f2dfab2a07c7, type: 3}
+  buyerHappyAudio: {fileID: 8300000, guid: 4e37c366284bde746b7201ebfc44d5d8, type: 3}
   playerDamageAudio: {fileID: 8300000, guid: ff150858c2deeca42af11480655f8383, type: 3}
   playerShootAudio: {fileID: 8300000, guid: d60b53ac81d7b7246a580f19b71f8eb0, type: 3}
   floatingAudio: {fileID: 8300000, guid: c6a0192b2b987ed4999ef25d745d703f, type: 3}
